@@ -1,0 +1,24 @@
+name: Add Butterfly Theme
+
+on:
+  workflow_dispatch:
+
+jobs:
+  add-theme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Add Butterfly theme
+        run: |
+          rm -rf themes/butterfly
+          git clone https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly
+          rm -rf themes/butterfly/.git
+          
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add themes/butterfly
+          git commit -m "Add Butterfly theme" || echo "No changes to commit"
+          git push
