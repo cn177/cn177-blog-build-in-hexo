@@ -1,0 +1,6 @@
+# 基本配置
+avatar: /img/avatar.png   # 头像
+subtitle: 
+  enable: true
+  text1: 欢迎来到我的博客
+  text2: 记录生活与技术
