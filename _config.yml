@@ -105,3 +105,15 @@ deploy:
 # 在文件最后添加
 theme_config:
   config: _config.butterfly.yml
+  # 资源路径配置
+node_sass: 
+  outputStyle: nested
+  precision: 5
+
+# 防止路径问题
+relative_link: false
+
+# 确保资源使用绝对路径
+pretty_urls:
+  trailing_index: false  # 改成 false
+  trailing_html: false   # 改成 false
