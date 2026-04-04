@@ -116,11 +116,6 @@ reward:
   # qrcode: /img/wechat.png
   # qrcode2: /img/alipay.png
 
-# 文章字数统计/阅读时长
-wordcount:
-  enable: true
-  count: true
-  time: true
 
 # 相关文章推荐
 related_post:
