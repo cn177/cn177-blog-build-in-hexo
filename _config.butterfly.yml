@@ -3,9 +3,7 @@
 # =====================================
 
 # 头像（把 /img/avatar.png 换成你自己的图片路径）
-avatar:
-  img: /source/img/avatar.png
-  effect: true
+avatar: /img/avatar.png
 
 # 副标题打字效果
 subtitle:
