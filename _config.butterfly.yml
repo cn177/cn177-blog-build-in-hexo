@@ -1,6 +1,22 @@
 # 基本配置
-avatar: /img/avatar.png   # 头像
+avatar: /img/avatar.png
 subtitle: 
   enable: true
   text1: 欢迎来到我的博客
   text2: 记录生活与技术
+
+# 侧边栏配置
+aside:
+  enable: true
+  position: right
+  card_author:
+    enable: true
+    description: 你好，我是 cn177
+    button:
+      enable: true
+      icon: fab fa-github
+      text: GitHub
+      link: https://github.com/cn177
+  card_announcement:        # 👈 新增公告栏
+    enable: true
+    content: 本站刚刚建成，正在装修中...
