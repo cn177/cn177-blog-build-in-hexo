@@ -63,7 +63,7 @@ aside:
 # =====================================
 background:
   enable: true
-  image: /img/background.jpg   # 注释掉 color 那一行
+  color: "#1a1a2e"
 
 # =====================================
 # 代码高亮主题
@@ -80,7 +80,7 @@ copy_btn: true
 # =====================================
 post_copyright:
   enable: true
-  license: CC BY-NC-SA 4.0
+  license: CC BY-NC 4.0
 
 # =====================================
 # 文章字数统计
