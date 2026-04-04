@@ -1,8 +1,11 @@
 # =====================================
 # 头像
 # =====================================
+# 头像配置示例（确保路径和缩进正确）
 avatar:
-  img: /img/avator.png   # 先把图片上传到 source/img/
+  img: /img/avatar.jpg
+  rounded: true  # 圆形头像
+  opacity: 1
 
 # =====================================
 # 导航菜单
@@ -63,7 +66,9 @@ aside:
 # =====================================
 background:
   enable: true
-  color: "#1a1a2e"
+  url: /img/backgroundg.jpg  # 背景图路径
+  repeat: no-repeat
+  size: cover
 
 # =====================================
 # 代码高亮主题
