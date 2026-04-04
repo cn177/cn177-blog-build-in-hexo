@@ -1,14 +1,27 @@
+# =====================================
 # 基本配置
-avatar: /img/avatar.png
-subtitle: 
+# =====================================
+
+# 头像（把 /img/avatar.png 换成你自己的图片路径）
+avatar:
+  img: /source/img/avatar.png
+  effect: true
+
+# 副标题打字效果
+subtitle:
   enable: true
   text1: 欢迎来到我的博客
   text2: 记录生活与技术
 
-# 侧边栏配置
+# =====================================
+# 侧边栏
+# =====================================
+
 aside:
   enable: true
   position: right
+  
+  # 个人信息卡片
   card_author:
     enable: true
     description: 你好，我是 cn177
@@ -17,6 +30,49 @@ aside:
       icon: fab fa-github
       text: GitHub
       link: https://github.com/cn177
-  card_announcement:        # 👈 新增公告栏
+  
+  # 公告栏
+  card_announcement:
     enable: true
-    content: 本站刚刚建成，正在装修中...
+    content: 博客建设中，内容持续更新...
+
+# =====================================
+# 背景（深色）
+# =====================================
+
+background:
+  enable: true
+  color: "#1a1a2e"
+
+# =====================================
+# 关闭吃豆人加载动画
+# =====================================
+
+preloader:
+  enable: false
+
+# =====================================
+# 字数统计
+# =====================================
+
+wordcount:
+  enable: true
+  count: true
+  time: true
+
+# =====================================
+# 社交链接
+# =====================================
+
+social:
+  github: https://github.com/cn177 || fab fa-github
+
+# =====================================
+# 页脚版权
+# =====================================
+
+footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright: true
