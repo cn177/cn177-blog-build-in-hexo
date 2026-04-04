@@ -77,9 +77,9 @@ background:
   # 纯色背景
   # color: '#f0f2f5'
   # 渐变色背景
-  color: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+  #color: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
   # 图片背景（如果使用图片，把上面的 color 注释掉）
-  # image: /img/background.jpg
+  image: /img/background.jpg
 
 # 代码块主题
 highlight_theme: atom-one-light  # 可选: darker / pale night / light / ocean / mac / mac light / atom-one-dark / atom-one-light
