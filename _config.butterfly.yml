@@ -5,8 +5,5 @@ subtitle:
   enable: true
   text1: 欢迎来到我的博客
   text2: 记录生活与技术
-background:
-  enable: true
-  image: /img/bg.png   # 注意文件名和扩展名
 preloader:
   enable: false
