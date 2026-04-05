@@ -7,9 +7,41 @@ subtitle:
   text2: 记录生活与技术
 preloader:
   enable: false
+  # =====================================
+# 导航菜单
+# =====================================
 menu:
   首页: / || fas fa-home
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tag
   关于: /about/ || fas fa-heart
+  # =====================================
+# 侧边栏设置
+# =====================================
+
+aside:
+  enable: true
+  position: right
+  card_author:
+    enable: true
+    description: 这里是你的个人简介
+    button:
+      enable: true
+      icon: fab fa-github
+      text: 我的GitHub
+      link: https://github.com/cn177
+  card_announcement:
+    enable: true
+    content: 欢迎来到我的小站！<br>这里记录着我的学习和生活。
+  card_recent_post:
+    enable: true
+    limit: 5
+  card_categories:
+    enable: true
+    limit: 8
+  card_tags:
+    enable: true
+    limit: 20
+  card_webinfo:
+    enable: true
