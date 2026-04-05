@@ -47,13 +47,6 @@ post_copyright:
   enable: true
   license: CC BY-NC 4.0
 
-footer:
-  owner:
-    enable: true
-    since: 2026
-  copyright: true
-  custom_text:
-
 rightside:
   enable: true
   comment: true
@@ -87,19 +80,11 @@ inject:
           const startDate = new Date("2026/04/01");
           const now = new Date();
           const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-          const runtimeText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
-          const footerCustomText = document.querySelector(".footer__custom_text");
-          if (footerCustomText) {
-            footerCustomText.innerText = runtimeText;
-          } else {
-            // 如果找不到指定元素，就在 footer 里创建一个
-            const footer = document.querySelector("footer");
-            if (footer) {
-              const div = document.createElement("div");
-              div.className = "footer__custom_text";
-              div.innerText = runtimeText;
-              footer.appendChild(div);
-            }
+          const runtimeText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo<br>© 2026 cn177 | Powered by Hexo & Butterfly`;
+          const footerElement = document.querySelector("footer");
+          if (footerElement) {
+            // 直接替换 footer 的内容
+            footerElement.innerHTML = `<div class="footer__inner" style="text-align: center; padding: 20px;">${runtimeText}</div>`;
           }
         })();
       </script>'
