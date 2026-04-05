@@ -29,11 +29,11 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: 我的GitHub
+      text: GitHub
       link: https://github.com/cn177
   card_announcement:
     enable: true
-    content: 这是公告<br>但我不知道该写啥<br>个人介绍请见『关于我... 请你注意我是软嘴唇』
+    content: 这是公告<br>但我不知道该写啥<br>个人介绍请见<br>『关于我... 请你注意我是软嘴唇』
   card_recent_post:
     enable: true
     limit: 5
