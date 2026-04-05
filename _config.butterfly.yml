@@ -53,5 +53,8 @@ post_copyright:
   enable: true
   license: CC BY-NC 4.0
 
-
-
+# =====================
+# background
+background:
+  enable: true
+  color: "#1a1a2e"  # 深色基底
