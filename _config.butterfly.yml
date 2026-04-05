@@ -36,6 +36,11 @@ aside:
       icon: fab fa-github
       text: GitHub
       link: https://github.com/cn177
+        button2:           # 👈 新增这个按钮
+    enable: true
+    icon: fab fa-bilibili
+    text: Bilibili
+    link: https://space.bilibili.com/515843270
   card_announcement:
     enable: true
     content: 这是公告<br>但我不知道该写啥<br>个人介绍请见<br>『关于我... 请你注意我是软嘴唇』
