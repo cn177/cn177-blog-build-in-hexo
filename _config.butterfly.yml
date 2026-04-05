@@ -7,6 +7,9 @@ subtitle:
   text2: 记录生活与技术
 preloader:
   enable: false
-background:
-  enable: true
-  image: https://s41.ax1x.com/2026/04/05/petfh1f.png
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  标签: /tags/ || fas fa-tag
+  关于: /about/ || fas fa-heart
