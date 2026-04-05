@@ -87,3 +87,4 @@ inject:
           background-repeat: no-repeat !important;
         }
       </style>'
+favicon: /img/favicon-32x32.png   # 👈 指向你的图标文件
