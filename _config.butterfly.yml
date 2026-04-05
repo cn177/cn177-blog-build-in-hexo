@@ -45,3 +45,36 @@ aside:
     limit: 20
   card_webinfo:
     enable: true
+# =====================================
+# 文章相关
+# =====================================
+
+post_copyright:
+  enable: true
+  license: CC BY-NC-SA 4.0
+
+# 文章字数统计（只保留这一个！）
+wordcount:
+  enable: true
+  count: true
+  time: true
+
+# =====================================
+# 加载动画（关掉吃豆人）
+# =====================================
+
+preloader:
+  enable: false
+
+# =====================================
+# 社交图标
+# =====================================
+
+social:
+  github: https://github.com/cn177 || fab fa-github
+
+# =====================================
+# 顶部图设置
+# =====================================
+
+default_top_img: https://picsum.photos/1920/400?random=1
