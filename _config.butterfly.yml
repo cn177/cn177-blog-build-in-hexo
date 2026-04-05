@@ -55,7 +55,8 @@ post_copyright:
 
 # =====================
 # background
-# 强制背景色
-inject:
-  head:
-    - '<style>body { background-color: #1a1a2e !important; }</style>'
+# 首页顶部图开关
+index_top_img: true
+
+# 默认顶部图（当你没有为单独页面设置时显示）
+default_top_img: /img/bg.jpg
