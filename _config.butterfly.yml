@@ -53,16 +53,5 @@ post_copyright:
   enable: true
   license: CC BY-NC-SA 4.0
 
-# 文章字数统计（只保留这一个！）
-wordcount:
-  enable: true
-  count: true
-  time: true
 
 
-# =====================================
-# 社交图标
-# =====================================
-
-social:
-  github: https://github.com/cn177 || fab fa-github
