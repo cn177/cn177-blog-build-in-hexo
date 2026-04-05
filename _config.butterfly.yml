@@ -7,3 +7,6 @@ subtitle:
   text2: 记录生活与技术
 preloader:
   enable: false
+background:
+  enable: true
+  image: https://picsum.photos/1920/1080?random=1
