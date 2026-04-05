@@ -56,7 +56,16 @@ post_copyright:
 # =====================
 # background
 # 首页顶部图开关
-index_top_img: true
-
-# 默认顶部图（当你没有为单独页面设置时显示）
-default_top_img: /img/bg.jpg
+inject:
+  head:
+    - '<style>
+        /* 把顶部区域的背景图改成你的图片 */
+        #page-header,
+        .author-info__inner,
+        .author-info {
+          background-image: url(/img/bg.png) !important;
+          background-size: cover !important;
+          background-position: center !important;
+          background-repeat: no-repeat !important;
+        }
+      </style>'
