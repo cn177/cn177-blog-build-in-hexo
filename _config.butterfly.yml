@@ -52,7 +52,7 @@ footer:
     enable: true
     since: 2026
   copyright: true
-  custom_text: 你怎么看到这里了Ovo
+  custom_text:
 
 rightside:
   enable: true
@@ -69,13 +69,6 @@ post_end:
 social:
   github: https://github.com/cn177 || fab fa-github
 
-runtime:
-  enable: true
-  start_time: 2026/04/01
-  start_text: 已艰难运行
-  end_text: 天
-  runtime_span: false
-
 inject:
   head:
     - '<style>
@@ -90,17 +83,24 @@ inject:
       </style>'
   bottom:
     - '<script>
-        function updateRuntime() {
+        (function() {
           const startDate = new Date("2026/04/01");
           const now = new Date();
           const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-          const runtimeElements = document.querySelectorAll("#runtime span");
-          runtimeElements.forEach(function(el) {
-            if (el.id === "runtime-number") {
-              el.innerText = days;
+          const runtimeText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+          const footerCustomText = document.querySelector(".footer__custom_text");
+          if (footerCustomText) {
+            footerCustomText.innerText = runtimeText;
+          } else {
+            // 如果找不到指定元素，就在 footer 里创建一个
+            const footer = document.querySelector("footer");
+            if (footer) {
+              const div = document.createElement("div");
+              div.className = "footer__custom_text";
+              div.innerText = runtimeText;
+              footer.appendChild(div);
             }
-          });
-        }
-        updateRuntime();
+          }
+        })();
       </script>'
 favicon: /img/favicon-32x32.png   # 👈 指向你的图标文件
