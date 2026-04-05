@@ -25,7 +25,7 @@ aside:
   position: right
   card_author:
     enable: true
-    description: 这里是你的个人简介
+    description: 这是蛋堡 也叫软嘴唇.
     button:
       enable: true
       icon: fab fa-github
@@ -33,7 +33,7 @@ aside:
       link: https://github.com/cn177
   card_announcement:
     enable: true
-    content: 欢迎来到我的小站！<br>这里记录着我的学习和生活。
+    content: 这是公告<br>但我不知道该写啥<br>个人介绍请见『关于我... 请你注意我是软嘴唇』
   card_recent_post:
     enable: true
     limit: 5
@@ -51,7 +51,7 @@ aside:
 
 post_copyright:
   enable: true
-  license: CC BY-NC-SA 4.0
+  license: CC BY-NC 4.0
 
 
 
