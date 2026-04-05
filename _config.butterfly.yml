@@ -77,15 +77,41 @@ inject:
   bottom:
     - '<script>
         (function() {
+          // 计算运行天数
           const startDate = new Date("2026/04/01");
           const now = new Date();
           const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-          const runtimeText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo<br>© 2026 cn177 | Powered by Hexo & Butterfly`;
-          const footerElement = document.querySelector("footer");
-          if (footerElement) {
-            // 直接替换 footer 的内容
-            footerElement.innerHTML = `<div class="footer__inner" style="text-align: center; padding: 20px;">${runtimeText}</div>`;
-          }
+          
+          // 等待页面加载完成
+          window.addEventListener("DOMContentLoaded", function() {
+            // 查找页脚容器
+            const footerInner = document.querySelector(".footer__inner");
+            if (footerInner) {
+              // 创建运行时间元素
+              const runtimeDiv = document.createElement("div");
+              runtimeDiv.style.marginTop = "10px";
+              runtimeDiv.style.fontSize = "14px";
+              runtimeDiv.style.opacity = "0.8";
+              runtimeDiv.innerHTML = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+              footerInner.appendChild(runtimeDiv);
+            } else {
+              // 备用方案：直接追加到 footer 里
+              const footer = document.querySelector("footer");
+              if (footer) {
+                const runtimeDiv = document.createElement("div");
+                runtimeDiv.style.textAlign = "center";
+                runtimeDiv.style.padding = "10px";
+                runtimeDiv.innerHTML = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+                footer.appendChild(runtimeDiv);
+              }
+            }
+          });
         })();
       </script>'
+      footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright: true
+  custom_text:   # 留空
 favicon: /img/favicon-32x32.png   # 👈 指向你的图标文件
