@@ -1,24 +1,21 @@
 avatar:
   img: /img/avatar.png
   effect: true
+
 subtitle:
   enable: true
   text1: 欢迎来到我的博客
   text2: 记录生活与技术
+
 preloader:
   enable: false
-  # =====================================
-#  导航菜单
-# =====================================
+
 menu:
   首页: / || fas fa-home
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tag
   关于: /about/ || fas fa-heart
-  # =====================================
-# 侧边栏设置
-# =====================================
 
 aside:
   enable: true
@@ -45,21 +42,42 @@ aside:
     limit: 20
   card_webinfo:
     enable: true
-# =====================================
-# 文章相关
-# =====================================
 
 post_copyright:
   enable: true
   license: CC BY-NC 4.0
 
-# =====================
-# background
-# 首页顶部图开关
+footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright: true
+  custom_text: 你怎么看到这里了Ovo
+
+rightside:
+  enable: true
+  comment: true
+  share: true
+
+copy_btn: true
+highlight_theme: atom-one-dark
+
+post_end:
+  enable: true
+  content: ---------- 本文结束 ❤️ 感谢阅读 ----------
+
+social:
+  github: https://github.com/cn177 || fab fa-github
+
+runtime:
+  enable: true
+  start_time: 2026/04/01
+  start_text: 已艰难运行
+  end_text: 天
+
 inject:
   head:
     - '<style>
-        /* 把顶部区域的背景图改成你的图片 */
         #page-header,
         .author-info__inner,
         .author-info {
