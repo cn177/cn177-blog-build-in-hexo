@@ -66,9 +66,3 @@ wordcount:
 
 social:
   github: https://github.com/cn177 || fab fa-github
-
-# =====================================
-# 顶部图设置
-# =====================================
-
-default_top_img: https://picsum.photos/1920/400?random=1
