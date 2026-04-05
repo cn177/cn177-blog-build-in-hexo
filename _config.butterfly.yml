@@ -55,6 +55,7 @@ post_copyright:
 
 # =====================
 # background
-background:
-  enable: true
-  color: "#1a1a2e"  # 深色基底
+# 强制背景色
+inject:
+  head:
+    - '<style>body { background-color: #1a1a2e !important; }</style>'
