@@ -74,6 +74,7 @@ runtime:
   start_time: 2026/04/01
   start_text: 已艰难运行
   end_text: 天
+  runtime_span: false
 
 inject:
   head:
@@ -87,4 +88,19 @@ inject:
           background-repeat: no-repeat !important;
         }
       </style>'
+  bottom:
+    - '<script>
+        function updateRuntime() {
+          const startDate = new Date("2026/04/01");
+          const now = new Date();
+          const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+          const runtimeElements = document.querySelectorAll("#runtime span");
+          runtimeElements.forEach(function(el) {
+            if (el.id === "runtime-number") {
+              el.innerText = days;
+            }
+          });
+        }
+        updateRuntime();
+      </script>'
 favicon: /img/favicon-32x32.png   # 👈 指向你的图标文件
