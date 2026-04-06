@@ -91,7 +91,9 @@ rightside:
 # =====================================
 preloader:
   enable: false
-
+#pjax
+pjax:
+  enable: true
 # 背景图与页脚运行时间的 JavaScript 注入 还有神秘字体
 inject:
   head:
@@ -184,6 +186,19 @@ inject:
           });
         })();
       </script>'
+      #网易云音乐播放
+      - '<meting-js
+        server="netease"
+        type="playlist"
+        id="10119507937"
+        fixed="true"
+        autoplay="false"
+        loop="all"
+        order="random"
+        preload="auto"
+        volume="0.7"
+        list-folded="true">
+      </meting-js>'
     # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
