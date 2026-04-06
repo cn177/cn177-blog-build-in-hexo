@@ -186,21 +186,22 @@ inject:
           });
         })();
       </script>'
-      # MetingJS 播放器（完整歌单版）
+    # MetingJS 播放器（强制高品质版）
     - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
        <meting-js
            server="netease"
            type="playlist"
-           id="10119507937"
+           id="17876910958"
            fixed="true"
            autoplay="false"
            loop="all"
            order="list"
            preload="auto"
            volume="0.7"
-           list-folded="false">
+           list-folded="false"
+           audio-quality="standard">
        </meting-js>'
     # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
