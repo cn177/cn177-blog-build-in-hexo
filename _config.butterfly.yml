@@ -37,7 +37,7 @@ aside:
         text: GitHub
         link: https://github.com/cn177
       - enable: true
-        icon: fab fa-bilibili
+        icon: fas fa-tv
         text: Bilibili
         link: https://space.bilibili.com/515843270
   card_announcement:
