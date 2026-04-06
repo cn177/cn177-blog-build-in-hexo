@@ -186,13 +186,12 @@ inject:
           });
         })();
       </script>'
-    # 网易云音乐播放器（单曲试水版）
-    - '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css">
-       <div id="aplayer"></div>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script>
+    # 网易云音乐播放器（精简版）
+    - '<div id="aplayer"></div>
+       <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
        <script>
-         const ap = new APlayer({
-           container: document.getElementById("aplayer"),
+         var ap = new APlayer({
+           element: document.getElementById("aplayer"),
            fixed: true,
            autoplay: false,
            loop: "all",
@@ -205,7 +204,7 @@ inject:
            }]
          });
        </script>'
-    # 四个漂亮的圆角按钮
+    # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
            .blog-buttons {
@@ -252,6 +251,11 @@ inject:
            <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
              <i class="fab fa-github"></i> Hexo
            </a>
+           <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" class="blog-btn btn-butterfly">
+             <i class="fab fa-github"></i> Butterfly
+           </a>
+         </div>
+       </div>'
            <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" class="blog-btn btn-butterfly">
              <i class="fab fa-github"></i> Butterfly
            </a>
