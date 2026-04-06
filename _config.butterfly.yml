@@ -106,7 +106,7 @@ inject:
         /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
-          font-weight: 500 !important;  /* 全局加粗，500 = 中等粗细 */
+          font-weight: 500 !important;
         }
         /* 段落文字稍微轻一点，保持可读性 */
         p, .post-content, .article-content {
@@ -121,7 +121,7 @@ inject:
         .tag-title,
         h1, h2, h3, h4, h5, h6 {
           font-family: "SimSun", "Times New Roman", serif !important;
-          font-weight: 700 !important;  /* 标题更粗 */
+          font-weight: 700 !important;
         }
         /* 副标题：使用得意黑 + 加粗 */
         #site-subtitle {
@@ -184,8 +184,8 @@ inject:
           });
         })();
       </script>'
-          # MetingJS 播放器（完整歌单版）
-  - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    # MetingJS 播放器（完整歌单版）
+    - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
        <meting-js
@@ -198,7 +198,8 @@ inject:
            order="list"
            preload="auto"
            volume="0.7"
-           list-folded="false">
+           list-folded="false"
+           api="https://api-enhanced-fj3ia3eyb-cn177s-projects.vercel.app">
        </meting-js>'
     # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
