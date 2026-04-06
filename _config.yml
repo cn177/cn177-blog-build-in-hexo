@@ -87,3 +87,7 @@ theme: butterfly
 # Deployment
 deploy:
   type: ''
+# APlayer 音乐播放器
+aplayer:
+  meting: true
+  asset_inject: false
