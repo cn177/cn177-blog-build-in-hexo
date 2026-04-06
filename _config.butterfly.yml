@@ -186,22 +186,8 @@ inject:
           });
         })();
       </script>'
-    # 网易云音乐播放器 (MetingJS方式)
-    - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-       <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-       <meting-js
-           server="netease"
-           type="song"
-           id="28218543"
-           fixed="true"
-           autoplay="false"
-           loop="all"
-           order="random"
-           preload="auto"
-           volume="0.7"
-           list-folded="true">
-       </meting-js>'
+        # 网易云音乐官方 iframe 播放器
+    - '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="450" src="//music.163.com/outchain/player?type=0&id=17876910958&auto=0&height=430" style="margin: 20px 0;"></iframe>'
     # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
