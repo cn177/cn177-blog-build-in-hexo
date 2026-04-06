@@ -111,29 +111,53 @@ inject:
         }
       </style>'
   bottom:
-    - '<script>
-        (function() {
-          const startDate = new Date("2026/04/01");
-          const now = new Date();
-          const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-          window.addEventListener("DOMContentLoaded", function() {
-            const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
-            if (footerInner) {
-              const runtimeDiv = document.createElement("div");
-              runtimeDiv.style.marginTop = "8px";
-              runtimeDiv.style.fontSize = "90%";
-              runtimeDiv.style.opacity = "0.8";
-              runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
-              footerInner.appendChild(runtimeDiv);
-            }
-          });
-        })();
-      </script>'
-    - '<div style="text-align: center; margin-top: 10px;">
-         <a href="https://github.com/cn177" target="_blank" style="display: inline-block; margin: 0 5px; padding: 6px 12px; background: #24292e; color: white; border-radius: 20px; text-decoration: none; font-size: 14px;">
-           GitHub
-         </a>
-         <a href="https://space.bilibili.com/515843270" target="_blank" style="display: inline-block; margin: 0 5px; padding: 6px 12px; background: #fb7299; color: white; border-radius: 20px; text-decoration: none; font-size: 14px;">
-           哔哩哔哩
-         </a>
+    - '<div style="text-align: center; margin: 20px 0 10px;">
+         <style>
+           .blog-buttons {
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: center;
+             gap: 12px;
+             margin-top: 15px;
+           }
+           .blog-btn {
+             display: inline-flex;
+             align-items: center;
+             gap: 8px;
+             padding: 8px 18px;
+             border-radius: 40px;
+             font-size: 13px;
+             font-weight: 500;
+             text-decoration: none;
+             transition: all 0.3s ease;
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+           }
+           .blog-btn:hover {
+             transform: translateY(-3px);
+             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+           }
+           .btn-github { background: #24292e; color: white; }
+           .btn-github:hover { background: #2f363d; }
+           .btn-bilibili { background: #fb7299; color: white; }
+           .btn-bilibili:hover { background: #fc8dae; }
+           .btn-hexo { background: #0e83cd; color: white; }
+           .btn-hexo:hover { background: #1a9cf0; }
+           .btn-butterfly { background: #ff7c7c; color: white; }
+           .btn-butterfly:hover { background: #ff9696; }
+           .blog-btn i { font-size: 16px; }
+         </style>
+         <div class="blog-buttons">
+           <a href="https://github.com/cn177" target="_blank" class="blog-btn btn-github">
+             <i class="fab fa-github"></i> GitHub
+           </a>
+           <a href="https://space.bilibili.com/515843270" target="_blank" class="blog-btn btn-bilibili">
+             <i class="fab fa-bilibili"></i> 哔哩哔哩
+           </a>
+           <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
+             <i class="fab fa-github"></i> Hexo
+           </a>
+           <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" class="blog-btn btn-butterfly">
+             <i class="fab fa-github"></i> Butterfly
+           </a>
+         </div>
        </div>'
