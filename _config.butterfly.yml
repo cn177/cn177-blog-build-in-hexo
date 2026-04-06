@@ -32,10 +32,14 @@ aside:
     enable: true
     description: 这是蛋堡 也叫软嘴唇.
     button:
-      enable: true
-      icon: fab fa-github
-      text: GitHub
-      link: https://github.com/cn177
+      - enable: true
+        icon: fab fa-github
+        text: GitHub
+        link: https://github.com/cn177
+      - enable: true
+        icon: fab fa-bilibili
+        text: Bilibili
+        link: https://space.bilibili.com/515843270
   card_announcement:
     enable: true
     content: 这是公告<br>但我不知道该写啥<br>个人介绍请见<br>『关于我... 请你注意我是软嘴唇』
@@ -100,6 +104,14 @@ inject:
           background-size: cover !important;
           background-position: center !important;
           background-repeat: no-repeat !important;
+        }
+        .post-content::after {
+          content: "---------- 本文结束 ❤️ 感谢阅读 ----------";
+          display: block;
+          text-align: center;
+          margin: 40px 0 20px;
+          font-size: 14px;
+          color: #999;
         }
       </style>'
   bottom:
