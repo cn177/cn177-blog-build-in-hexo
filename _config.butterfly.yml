@@ -186,22 +186,21 @@ inject:
           });
         })();
       </script>'
-    # 网易云音乐播放器（自建 API 版）
+    # MetingJS 播放器（完整歌单版）
     - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
        <meting-js
            server="netease"
            type="playlist"
-           id="17876910958"
+           id="10119507937"
            fixed="true"
            autoplay="false"
            loop="all"
            order="list"
            preload="auto"
            volume="0.7"
-           list-folded="false"
-           api="api-enhanced-fj3ia3eyb-cn177s-projects.vercel.app">
+           list-folded="false">
        </meting-js>'
     # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
