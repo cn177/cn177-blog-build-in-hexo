@@ -146,6 +146,25 @@ inject:
         }
       </style>'
   bottom:
+    # 运行时间 JS
+    - '<script>
+        (function() {
+          const startDate = new Date("2026/04/01");
+          const now = new Date();
+          const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+          window.addEventListener("DOMContentLoaded", function() {
+            const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
+            if (footerInner) {
+              const runtimeDiv = document.createElement("div");
+              runtimeDiv.style.marginTop = "8px";
+              runtimeDiv.style.fontSize = "90%";
+              runtimeDiv.style.opacity = "0.8";
+              runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+              footerInner.appendChild(runtimeDiv);
+            }
+          });
+        })();
+      </script>'
     # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
