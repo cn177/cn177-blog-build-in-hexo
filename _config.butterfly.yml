@@ -91,9 +91,7 @@ rightside:
 # =====================================
 preloader:
   enable: false
-#pjax
-pjax:
-  enable: true
+
 # 背景图与页脚运行时间的 JavaScript 注入 还有神秘字体
 inject:
   head:
@@ -186,14 +184,14 @@ inject:
           });
         })();
       </script>'
-    # MetingJS 播放器（完整歌单版）
-    - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+          # MetingJS 播放器（完整歌单版）
+  - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
        <meting-js
            server="netease"
            type="playlist"
-           id="17882448056"
+           id="17876910958"
            fixed="true"
            autoplay="false"
            loop="all"
@@ -202,7 +200,7 @@ inject:
            volume="0.7"
            list-folded="false">
        </meting-js>'
-    # 四个圆角按钮
+    # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
            .blog-buttons {
