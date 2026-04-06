@@ -32,14 +32,10 @@ aside:
     enable: true
     description: 这是蛋堡 也叫软嘴唇.
     button:
-      - enable: true
-        icon: fab fa-github
-        text: GitHub
-        link: https://github.com/cn177
-      - enable: true
-        icon: fas fa-tv
-        text: Bilibili
-        link: https://space.bilibili.com/515843270
+      enable: true
+      icon: fab fa-github
+      text: GitHub
+      link: https://github.com/cn177
   card_announcement:
     enable: true
     content: 这是公告<br>但我不知道该写啥<br>个人介绍请见<br>『关于我... 请你注意我是软嘴唇』
@@ -133,3 +129,11 @@ inject:
           });
         })();
       </script>'
+    - '<div style="text-align: center; margin-top: 10px;">
+         <a href="https://github.com/cn177" target="_blank" style="display: inline-block; margin: 0 5px; padding: 6px 12px; background: #24292e; color: white; border-radius: 20px; text-decoration: none; font-size: 14px;">
+           GitHub
+         </a>
+         <a href="https://space.bilibili.com/你的UID" target="_blank" style="display: inline-block; margin: 0 5px; padding: 6px 12px; background: #fb7299; color: white; border-radius: 20px; text-decoration: none; font-size: 14px;">
+           哔哩哔哩
+         </a>
+       </div>'
