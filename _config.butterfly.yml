@@ -186,28 +186,22 @@ inject:
           });
         })();
       </script>'
-    # 测试音乐播放器（100% 能播）
-    - '<div id="aplayer" style="z-index: 999;"></div>
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
-       <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-       <script>
-         setTimeout(function() {
-           var ap = new APlayer({
-             element: document.getElementById("aplayer"),
-             fixed: true,
-             autoplay: false,
-             loop: "all",
-             order: "random",
-             audio: [{
-               name: "测试音乐",
-               artist: "Demo",
-               url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-               cover: "https://picsum.photos/200/200"
-             }]
-           });
-           console.log("播放器已加载");
-         }, 1000);
-       </script>'
+    # 网易云音乐播放器 (MetingJS方式)
+    - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+       <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+       <meting-js
+           server="netease"
+           type="song"
+           id="28218543"
+           fixed="true"
+           autoplay="false"
+           loop="all"
+           order="random"
+           preload="auto"
+           volume="0.7"
+           list-folded="true">
+       </meting-js>'
     # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
          <style>
