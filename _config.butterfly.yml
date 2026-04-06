@@ -7,8 +7,11 @@ avatar:
 
 subtitle:
   enable: true
-  text1: 欢迎来到我的博客
-  text2: 记录生活与技术
+  effect: true
+  loop: true
+  source: false
+  sub:
+    - 汗は君のために流れる.————POCARI SWEET
 
 favicon: /img/favicon-32x32.png
 
