@@ -186,7 +186,7 @@ inject:
           });
         })();
       </script>'
-    # MetingJS 播放器（强制高品质版）
+    # 网易云音乐播放器（自建 API 版）
     - '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
        <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
@@ -201,7 +201,7 @@ inject:
            preload="auto"
            volume="0.7"
            list-folded="false"
-           audio-quality="standard">
+           api="api-enhanced-fj3ia3eyb-cn177s-projects.vercel.app">
        </meting-js>'
     # 四个圆角按钮
     - '<div style="text-align: center; margin: 20px 0 10px;">
