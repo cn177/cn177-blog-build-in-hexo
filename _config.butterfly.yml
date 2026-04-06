@@ -97,17 +97,23 @@ inject:
   head:
     # 加载英文字体 Rajdhani
     - '<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">'
-    # 加载开源文艺字体“霞鹜文楷”作为正文默认字体（文悦后现代体的优秀替代）
+    # 加载开源文艺字体“霞鹜文楷”作为正文默认字体
     - '<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.6.0/style.css" rel="stylesheet">'
+    # 加载得意黑字体（副标题专用）
+    - '<link href="https://fonts.googleapis.com/css2?family=Smiley+Sans&display=swap" rel="stylesheet">'
     # 注入全局样式
     - '<style>
-        /* 全局基础字体：英文优先用 Rajdhani，中文用霞鹜文楷 */
+        /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
+          font-weight: 500 !important;  /* 全局加粗，500 = 中等粗细 */
         }
-        /* 标题、副标题、文章标题强制使用宋体 */
+        /* 段落文字稍微轻一点，保持可读性 */
+        p, .post-content, .article-content {
+          font-weight: 450 !important;
+        }
+        /* 标题、文章标题强制使用宋体 + 加粗 */
         #site-title,
-        #site-subtitle,
         .post-title,
         .page-title,
         .archive-title,
@@ -115,16 +121,28 @@ inject:
         .tag-title,
         h1, h2, h3, h4, h5, h6 {
           font-family: "SimSun", "Times New Roman", serif !important;
-          font-weight: bold;
+          font-weight: 700 !important;  /* 标题更粗 */
         }
-        /* 让副标题稍粗，更有分量 */
+        /* 副标题：使用得意黑 + 加粗 */
         #site-subtitle {
-          font-weight: 600;
+          font-family: "Smiley Sans", "LXGW WenKai Screen", sans-serif !important;
+          font-weight: 600 !important;
           letter-spacing: 1px;
+          font-size: 1.2rem;
         }
         /* 代码块保持专业等宽字体 */
         code, pre, .code-content {
           font-family: "JetBrains Mono", "Fira Code", monospace !important;
+          font-weight: 400;
+        }
+        /* 导航菜单加粗 */
+        .menus_item a, .menu-item a {
+          font-weight: 500 !important;
+        }
+        /* 侧边栏文字加粗 */
+        .aside-content .card-announcement,
+        .aside-content .card_author .description {
+          font-weight: 450 !important;
         }
         /* 你的原有背景样式 */
         #page-header,
@@ -143,6 +161,7 @@ inject:
           margin: 40px 0 20px;
           font-size: 14px;
           color: #999;
+          font-weight: 400;
         }
       </style>'
   bottom:
