@@ -193,7 +193,6 @@ inject:
        <meting-js
            server="netease"
            type="playlist"
-           id="10119507937"
            id="17882448056"
            fixed="true"
            autoplay="false"
