@@ -170,7 +170,7 @@ inject:
 
                 /* 为吸底播放器预留空间，防止按钮被歌词遮挡 */
         body {
-          padding-bottom: 20px !important;
+          padding-bottom: 60px !important;
         }
       </style>'
   bottom:
