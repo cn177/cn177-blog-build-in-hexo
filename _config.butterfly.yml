@@ -92,7 +92,9 @@ rightside:
 # =====================================
 preloader:
   enable: false
-
+# 开启 PJAX（页面无刷新切换，音乐不中断）
+pjax:
+  enable: true
 
 # 背景图与页脚运行时间的 JavaScript 注入 还有神秘字体
 inject:
