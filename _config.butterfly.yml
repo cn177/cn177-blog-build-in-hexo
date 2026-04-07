@@ -167,6 +167,12 @@ inject:
           color: #999;
           font-weight: 400;
         }
+
+                /* 页脚底部增加 20px 空白 */
+        footer {
+          margin-bottom: 20px !important;
+          padding-bottom: 20px !important;
+        }
       </style>'
   bottom:
     # 运行时间 JS
