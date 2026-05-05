@@ -193,22 +193,30 @@ inject:
           });
         })();
       </script>'
-    # 网易云音乐播放器 (Staticfile CDN 版)
-    - '<link rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css">
+    # 网易云音乐直链版（通过 API 获取）
+    - '<div id="aplayer"></div>
+       <link rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css">
        <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
-       <script src="https://cdn.staticfile.net/meting/2.0.1/Meting.min.js"></script>
-       <meting-js
-           server="netease"
-           type="playlist"
-           id="17882448056"
-           fixed="true"
-           autoplay="false"
-           loop="all"
-           order="random"
-           preload="auto"
-           volume="0.7"
-           list-folded="true">
-       </meting-js>'
+       <script>
+         fetch("https://api.injahow.cn/meting/?server=netease&type=playlist&id=17882448056")
+           .then(res => res.json())
+           .then(data => {
+             const songs = data.map(song => ({
+               name: song.title,
+               artist: song.author,
+               url: song.url,
+               cover: song.pic
+             }));
+             new APlayer({
+               element: document.getElementById("aplayer"),
+               fixed: true,
+               autoplay: false,
+               loop: "all",
+               order: "list",
+               audio: songs
+             });
+           });
+       </script>'
     # 四个漂亮的圆角按钮（加一个上边距，防止和播放器重叠）
     - '<div style="text-align: center; margin: 0;">
          <style>
