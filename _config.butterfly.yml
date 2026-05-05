@@ -193,7 +193,7 @@ inject:
           });
         })();
       </script>'
-    # 备用 CDN（Staticfile，国内较稳定）
+    # 网易云音乐播放器 (Staticfile CDN 版)
     - '<link rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css">
        <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
        <script src="https://cdn.staticfile.net/meting/2.0.1/Meting.min.js"></script>
