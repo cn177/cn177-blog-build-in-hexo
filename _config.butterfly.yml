@@ -110,7 +110,7 @@ inject:
         /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
-          font-weight: 500 !important;  /* 全局加粗，500 = 中等粗细 */
+          font-weight: 500 !important;
         }
         /* 段落文字稍微轻一点，保持可读性 */
         p, .post-content, .article-content {
@@ -125,7 +125,7 @@ inject:
         .tag-title,
         h1, h2, h3, h4, h5, h6 {
           font-family: "SimSun", "Times New Roman", serif !important;
-          font-weight: 700 !important;  /* 标题更粗 */
+          font-weight: 700 !important;
         }
         /* 副标题：使用得意黑 + 加粗 */
         #site-subtitle {
@@ -148,15 +148,6 @@ inject:
         .aside-content .card_author .description {
           font-weight: 450 !important;
         }
-        /* 你的原有背景样式 */
-        #page-header,
-        .author-info__inner,
-        .author-info {
-          background-image: url(/img/bg.png) !important;
-          background-size: cover !important;
-          background-position: center !important;
-          background-repeat: no-repeat !important;
-        }
         /* 文章结束标记样式 */
         .post-content::after {
           content: "---------- 本文结束 ❤️ 感谢阅读 ----------";
@@ -167,12 +158,84 @@ inject:
           color: #999;
           font-weight: 400;
         }
-
-                /* 为吸底播放器预留空间，防止按钮被歌词遮挡 */
+        /* 为吸底播放器预留空间 */
         body {
           padding-bottom: 60px !important;
         }
       </style>'
+    # 季节背景切换 JS + 通知气泡
+    - '<script>
+        (function() {
+          const month = new Date().getMonth();
+          const date = new Date().getDate();
+          let season = "";
+          let seasonName = "";
+          let bgUrl = "";
+          
+          if (month >= 2 && month <= 4) {
+            season = "spring";
+            seasonName = "春";
+            bgUrl = "https://picsum.photos/id/15/1920/1080";
+          } else if (month >= 5 && month <= 7) {
+            season = "summer";
+            seasonName = "夏";
+            bgUrl = "https://picsum.photos/id/21/1920/1080";
+          } else if (month >= 8 && month <= 10) {
+            season = "autumn";
+            seasonName = "秋";
+            bgUrl = "https://picsum.photos/id/16/1920/1080";
+          } else {
+            season = "winter";
+            seasonName = "冬";
+            bgUrl = "https://picsum.photos/id/42/1920/1080";
+          }
+          
+          // 切换背景图
+          const style = document.createElement("style");
+          style.textContent = `
+            #page-header,
+            .author-info__inner,
+            .author-info {
+              background-image: url(${bgUrl}) !important;
+              background-size: cover !important;
+              background-position: center !important;
+              background-repeat: no-repeat !important;
+            }
+          `;
+          document.head.appendChild(style);
+          
+          // 创建通知气泡
+          const toast = document.createElement("div");
+          toast.innerHTML = `📅 ${month + 1}月${date}日 · 背景已切换到「${seasonName}季」`;
+          toast.style.cssText = `
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-family: system-ui, -apple-system, sans-serif;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          `;
+          document.body.appendChild(toast);
+          
+          // 淡入
+          setTimeout(() => { toast.style.opacity = "1"; }, 100);
+          // 3秒后淡出
+          setTimeout(() => { toast.style.opacity = "0"; }, 3000);
+          // 3.5秒后移除
+          setTimeout(() => { toast.remove(); }, 3500);
+          
+          console.log(`🍂 ${month + 1}月${date}日 · 背景已切换到「${seasonName}季」`);
+        })();
+      </script>'
   bottom:
     # 运行时间 JS
     - '<script>
@@ -209,7 +272,7 @@ inject:
            volume="0.7"
            list-folded="true">
        </meting-js>'
-    # 四个漂亮的圆角按钮（加一个上边距，防止和播放器重叠）
+    # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 0;">
          <style>
            .blog-buttons {
