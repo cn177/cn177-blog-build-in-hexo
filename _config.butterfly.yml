@@ -162,46 +162,49 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 季节背景切换 JS（内联样式版）
+    # 季节背景切换 JS（修复版）
     - '<script>
         (function() {
-          const month = new Date().getMonth();
-          let bgUrl = "";
+          var month = new Date().getMonth();
+          var bgUrl = "";
           
           if (month >= 5 && month <= 7) {
-            bgUrl = "/img/bg2.jpg";   // 夏日背景
+            bgUrl = "/img/bg2.jpg";
           } else {
-            bgUrl = "/img/bg1.jpg";   // 冬日背景
+            bgUrl = "/img/bg1.jpg";
           }
           
-          // 等待页面加载完成后直接修改元素样式
-          window.addEventListener("DOMContentLoaded", function() {
-            const header = document.querySelector("#page-header");
-            const authorInner = document.querySelector(".author-info__inner");
-            const author = document.querySelector(".author-info");
+          function setBackground() {
+            var header = document.querySelector("#page-header");
+            var authorInner = document.querySelector(".author-info__inner");
+            var author = document.querySelector(".author-info");
             
             if (header) {
-              header.style.backgroundImage = `url(${bgUrl})`;
+              header.style.backgroundImage = "url(" + bgUrl + ")";
               header.style.backgroundSize = "cover";
               header.style.backgroundPosition = "center";
               header.style.backgroundRepeat = "no-repeat";
-              console.log("✅ page-header 背景已设置");
-            } else {
-              console.log("❌ 未找到 #page-header");
+              console.log("背景已设置: " + bgUrl);
             }
             
             if (authorInner) {
-              authorInner.style.backgroundImage = `url(${bgUrl})`;
+              authorInner.style.backgroundImage = "url(" + bgUrl + ")";
               authorInner.style.backgroundSize = "cover";
               authorInner.style.backgroundPosition = "center";
             }
             
             if (author) {
-              author.style.backgroundImage = `url(${bgUrl})`;
+              author.style.backgroundImage = "url(" + bgUrl + ")";
               author.style.backgroundSize = "cover";
               author.style.backgroundPosition = "center";
             }
-          });
+          }
+          
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", setBackground);
+          } else {
+            setBackground();
+          }
         })();
       </script>'
   bottom:
