@@ -154,45 +154,133 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 四季背景切换 JS（最简版）
+    # 节气提示 + 季节背景切换 JS
     - '<script>
-        var month = new Date().getMonth();
-        var bgUrl = "";
-        var season = "";
-        
-        if (month === 2 || month === 3 || month === 4) {
-          season = "春";
-          bgUrl = "/img/bg1.png";
-        } else if (month === 5 || month === 6 || month === 7) {
-          season = "夏";
-          bgUrl = "/img/bg2.png";
-        } else if (month === 8 || month === 9 || month === 10) {
-          season = "秋";
-          bgUrl = "/img/bg3.png";
-        } else {
-          season = "冬";
-          bgUrl = "/img/bg4.png";
+        // 动态加载 chinese-days 库
+        function loadScript(src) {
+          return new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => resolve();
+            script.onerror = () => reject();
+            document.head.appendChild(script);
+          });
         }
-        
-        console.log("季节:", season, "图片:", bgUrl);
-        
-        function setBg() {
-          var el = document.querySelector("#page-header");
-          if (el) {
-            el.style.backgroundImage = "url(" + bgUrl + ")";
-            el.style.backgroundSize = "cover";
-            el.style.backgroundPosition = "center";
-            console.log("背景已设置");
+
+        async function init() {
+          // 1. 加载库
+          await loadScript("https://cdn.jsdelivr.net/npm/chinese-days/dist/index.min.js");
+
+          // 2. 获取当前日期并计算出节气信息
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = (today.getMonth() + 1).toString().padStart(2, "0");
+          const day = today.getDate().toString().padStart(2, "0");
+          const todayStr = `${year}-${month}-${day}`;
+          
+          // 获取当天所在的节气
+          const solarTermToday = window.chineseDays.getSolarTerms(todayStr);
+          let nearestTerm = solarTermToday && solarTermToday.length ? solarTermToday[0] : null;
+          
+          let nextTerm = null;
+          let daysUntil = 0;
+          
+          // 3. 如果当天不是节气，循环查找未来30天内的下一个节气
+          if (!nearestTerm) {
+            for (let i = 1; i <= 30; i++) {
+              const futureDate = new Date(today);
+              futureDate.setDate(today.getDate() + i);
+              const yearF = futureDate.getFullYear();
+              const monthF = (futureDate.getMonth() + 1).toString().padStart(2, "0");
+              const dayF = futureDate.getDate().toString().padStart(2, "0");
+              const futureStr = `${yearF}-${monthF}-${dayF}`;
+              const term = window.chineseDays.getSolarTerms(futureStr);
+              if (term && term.length) {
+                nextTerm = term[0];
+                daysUntil = i;
+                break;
+              }
+            }
           } else {
-            console.log("未找到元素，1秒后重试");
-            setTimeout(setBg, 1000);
+            // 当天就是节气，距离天数为0
+            nextTerm = nearestTerm;
+            daysUntil = 0;
           }
+
+          // 4. 生成节气提示文案
+          let termMessage = "";
+          if (daysUntil === 0) {
+            termMessage = `🎉 今日是「${nextTerm.name}」！🎉`;
+          } else {
+            termMessage = `离「${nextTerm.name}」还有 ${daysUntil} 天 ✨`;
+          }
+          const dateMessage = `📅 ${month}月${day}日 · ${termMessage}`;
+
+          // 5. 季节背景切换 (核心逻辑保持不变)
+          const currentMonth = today.getMonth(); // 0-11
+          let bgUrl = "";
+          let season = "";
+          
+          if (currentMonth >= 2 && currentMonth <= 4) {      // 3-5月
+            season = "春";
+            bgUrl = "/img/bg1.png";
+          } else if (currentMonth >= 5 && currentMonth <= 7) { // 6-8月
+            season = "夏";
+            bgUrl = "/img/bg2.png";
+          } else if (currentMonth >= 8 && currentMonth <= 10) { // 9-11月
+            season = "秋";
+            bgUrl = "/img/bg3.png";
+          } else {                                           // 12-2月
+            season = "冬";
+            bgUrl = "/img/bg4.png";
+          }
+          
+          // 应用背景图
+          const header = document.querySelector("#page-header");
+          if (header) {
+            header.style.backgroundImage = `url(${bgUrl})`;
+            header.style.backgroundSize = "cover";
+            header.style.backgroundPosition = "center";
+          }
+          
+          // 6. 创建并显示精美的通知气泡
+          const toast = document.createElement("div");
+          toast.innerHTML = `<div style="font-weight: 600; margin-bottom: 4px;">🌿 节气物语</div><div>${dateMessage}<br>🍂 背景已切换为「${season}季」</div>`;
+          toast.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-family: system-ui, -apple-system, sans-serif;
+            z-index: 99999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            line-height: 1.5;
+            max-width: 260px;
+          `;
+          document.body.appendChild(toast);
+          
+          // 淡入淡出效果
+          setTimeout(() => { toast.style.opacity = "1"; }, 200);
+          setTimeout(() => { toast.style.opacity = "0"; }, 5000);
+          setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5500);
+          
+          console.log(`✅ 节气提示: ${termMessage}, 背景已切换至${season}季`);
         }
-        
+
+        // 页面加载完成后执行
         if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", setBg);
+          document.addEventListener("DOMContentLoaded", init);
         } else {
-          setBg();
+          init();
         }
       </script>'
   bottom:
