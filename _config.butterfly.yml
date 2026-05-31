@@ -154,9 +154,9 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 节气提示 + 季节背景切换 JS（极简版）
+    # 节气提示 + 季节背景切换 JS（稳定版）
     - '<script>
-        (function() {
+        function initSolarTerm() {
           let termMessage = "🍂 节气数据加载中...";
           let season = "冬";
           let bgUrl = "/img/bg4.png";
@@ -207,7 +207,7 @@ inject:
             }
             console.log("节气成功:", termMessage);
           } catch(e) {
-            console.log("节气失败，用bg4");
+            console.log("节气失败，用bg4:", e);
             termMessage = "🍂 节气数据加载中...";
             season = "冬";
             bgUrl = "/img/bg4.png";
@@ -228,12 +228,18 @@ inject:
           toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;z-index:99999;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
           document.body.appendChild(toast);
           
-          setTimeout(() => { toast.style.opacity = "1"; }, 100);
-          setTimeout(() => { toast.style.opacity = "0"; }, 4500);
-          setTimeout(() => { try{toast.remove();}catch(e){} }, 5000);
+          setTimeout(() => { if(toast) toast.style.opacity = "1"; }, 100);
+          setTimeout(() => { if(toast) toast.style.opacity = "0"; }, 4500);
+          setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5000);
           
           console.log(`✅ ${dateMsg}, 背景:${season}季`);
-        })();
+        }
+        
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSolarTerm);
+        } else {
+          initSolarTerm();
+        }
       </script>'
   bottom:
     # 运行时间 JS
