@@ -95,7 +95,6 @@ preloader:
 pjax:
   enable: true
 
-# 背景图与页脚运行时间的 JavaScript 注入 还有神秘字体
 inject:
   head:
     # 加载英文字体 Rajdhani
@@ -104,7 +103,7 @@ inject:
     - '<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.6.0/style.css" rel="stylesheet">'
     # 加载得意黑字体（副标题专用）
     - '<link href="https://fonts.googleapis.com/css2?family=Smiley+Sans&display=swap" rel="stylesheet">'
-    # 注入全局样式
+    # 注入全局样式（已删除背景样式）
     - '<style>
         /* 全局基础字体：加粗版本 */
         body {
@@ -154,7 +153,7 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 节气提示 + 季节背景切换 JS（全页面版，缩进修正）
+    # 节气提示 + 季节背景切换 JS（全页面版）
     - '<script>
         function initSolarTerm() {
           let termMessage = "🍂 节气数据加载中...";
@@ -213,7 +212,7 @@ inject:
             bgUrl = "/img/bg4.png";
           }
           
-          // 应用到所有可能的顶部区域（首页+文章页）
+          // 应用到所有可能的顶部区域
           const selectors = ["#page-header", ".page-header", ".post-header", ".article-header", ".author-info__inner", ".author-info"];
           for (let i = 0; i < selectors.length; i++) {
             const elements = document.querySelectorAll(selectors[i]);
