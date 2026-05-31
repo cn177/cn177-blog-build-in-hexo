@@ -162,8 +162,9 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-      inject:
-      head:
+# 背景图与页脚运行时间的 JavaScript 注入 还有神秘字体
+inject:
+  head:
     # 加载英文字体 Rajdhani
     - '<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">'
     # 加载开源文艺字体“霞鹜文楷”作为正文默认字体
