@@ -234,7 +234,6 @@ inject:
           console.log(`✅ ${dateMsg}, 背景:${season}季`);
         }
         
-                // 首次加载执行
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", initSolarTerm);
         } else {
