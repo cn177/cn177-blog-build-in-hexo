@@ -164,76 +164,85 @@ inject:
         }
       </style>'
     # 季节背景切换 JS + 通知气泡
+    # 季节背景切换 JS + 通知气泡（修复版）
     - '<script>
         (function() {
-          const month = new Date().getMonth();
-          const date = new Date().getDate();
-          let season = "";
-          let seasonName = "";
-          let bgUrl = "";
-          
-          if (month >= 2 && month <= 4) {
-            season = "spring";
-            seasonName = "春";
-            bgUrl = "https://picsum.photos/id/15/1920/1080";
-          } else if (month >= 5 && month <= 7) {
-            season = "summer";
-            seasonName = "夏";
-            bgUrl = "https://picsum.photos/id/21/1920/1080";
-          } else if (month >= 8 && month <= 10) {
-            season = "autumn";
-            seasonName = "秋";
-            bgUrl = "https://picsum.photos/id/16/1920/1080";
-          } else {
-            season = "winter";
-            seasonName = "冬";
-            bgUrl = "https://picsum.photos/id/42/1920/1080";
-          }
-          
-          // 切换背景图
-          const style = document.createElement("style");
-          style.textContent = `
-            #page-header,
-            .author-info__inner,
-            .author-info {
-              background-image: url(${bgUrl}) !important;
-              background-size: cover !important;
-              background-position: center !important;
-              background-repeat: no-repeat !important;
+          // 等待页面完全加载
+          window.addEventListener("load", function() {
+            const month = new Date().getMonth();
+            const date = new Date().getDate();
+            let seasonName = "";
+            let bgUrl = "";
+            
+            // 判断季节并选择背景图
+            if (month >= 2 && month <= 4) {
+              seasonName = "春";
+              bgUrl = "https://picsum.photos/id/15/1920/1080";
+            } else if (month >= 5 && month <= 7) {
+              seasonName = "夏";
+              bgUrl = "https://picsum.photos/id/21/1920/1080";
+            } else if (month >= 8 && month <= 10) {
+              seasonName = "秋";
+              bgUrl = "https://picsum.photos/id/16/1920/1080";
+            } else {
+              seasonName = "冬";
+              bgUrl = "https://picsum.photos/id/42/1920/1080";
             }
-          `;
-          document.head.appendChild(style);
-          
-          // 创建通知气泡
-          const toast = document.createElement("div");
-          toast.innerHTML = `📅 ${month + 1}月${date}日 · 背景已切换到「${seasonName}季」`;
-          toast.style.cssText = `
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(8px);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-size: 13px;
-            font-family: system-ui, -apple-system, sans-serif;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-          `;
-          document.body.appendChild(toast);
-          
-          // 淡入
-          setTimeout(() => { toast.style.opacity = "1"; }, 100);
-          // 3秒后淡出
-          setTimeout(() => { toast.style.opacity = "0"; }, 3000);
-          // 3.5秒后移除
-          setTimeout(() => { toast.remove(); }, 3500);
-          
-          console.log(`🍂 ${month + 1}月${date}日 · 背景已切换到「${seasonName}季」`);
+            
+            // 直接修改现有元素的背景
+            const pageHeader = document.querySelector("#page-header");
+            const authorInfoInner = document.querySelector(".author-info__inner");
+            const authorInfo = document.querySelector(".author-info");
+            
+            if (pageHeader) {
+              pageHeader.style.backgroundImage = `url(${bgUrl})`;
+              pageHeader.style.backgroundSize = "cover";
+              pageHeader.style.backgroundPosition = "center";
+            }
+            if (authorInfoInner) {
+              authorInfoInner.style.backgroundImage = `url(${bgUrl})`;
+              authorInfoInner.style.backgroundSize = "cover";
+              authorInfoInner.style.backgroundPosition = "center";
+            }
+            if (authorInfo) {
+              authorInfo.style.backgroundImage = `url(${bgUrl})`;
+              authorInfo.style.backgroundSize = "cover";
+              authorInfo.style.backgroundPosition = "center";
+            }
+            
+            // 创建通知气泡
+            const toast = document.createElement("div");
+            toast.innerHTML = `📅 ${month + 1}月${date}日 · 背景已切换到「${seasonName}季」`;
+            toast.style.cssText = `
+              position: fixed;
+              bottom: 100px;
+              left: 20px;
+              background: rgba(0,0,0,0.85);
+              backdrop-filter: blur(12px);
+              color: white;
+              padding: 10px 18px;
+              border-radius: 40px;
+              font-size: 14px;
+              font-family: system-ui, -apple-system, sans-serif;
+              z-index: 99999;
+              opacity: 0;
+              transition: opacity 0.4s ease;
+              pointer-events: none;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+              border: 1px solid rgba(255,255,255,0.25);
+              font-weight: 500;
+            `;
+            document.body.appendChild(toast);
+            
+            // 淡入
+            setTimeout(() => { toast.style.opacity = "1"; }, 300);
+            // 4秒后淡出
+            setTimeout(() => { toast.style.opacity = "0"; }, 4000);
+            // 4.5秒后移除
+            setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 4500);
+            
+            console.log(`✅ 季节切换成功：${month + 1}月${date}日，已切换到「${seasonName}季」`);
+          });
         })();
       </script>'
   bottom:
