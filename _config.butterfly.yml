@@ -240,16 +240,6 @@ inject:
         } else {
           initSolarTerm();
         }
-        
-        // 监听 PJAX 完成事件（后退/前进时重新设置）
-        document.addEventListener("pjax:complete", function() {
-          setTimeout(initSolarTerm, 100);
-        });
-        
-        // 监听浏览器后退/前进
-        window.addEventListener("popstate", function() {
-          setTimeout(initSolarTerm, 100);
-        });
       </script>'
   bottom:
     # 运行时间 JS
