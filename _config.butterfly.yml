@@ -162,34 +162,46 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 季节背景切换 JS（简化版）
+    # 季节背景切换 JS（内联样式版）
     - '<script>
         (function() {
           const month = new Date().getMonth();
           let bgUrl = "";
           
-          // 根据月份设置背景图
           if (month >= 5 && month <= 7) {
             bgUrl = "/img/bg2.jpg";   // 夏日背景
           } else {
             bgUrl = "/img/bg1.jpg";   // 冬日背景
           }
           
-          // 覆盖顶部区域的背景
-          const style = document.createElement("style");
-          style.textContent = `
-            #page-header,
-            .author-info__inner,
-            .author-info {
-              background-image: url(${bgUrl}) !important;
-              background-size: cover !important;
-              background-position: center !important;
-              background-repeat: no-repeat !important;
+          // 等待页面加载完成后直接修改元素样式
+          window.addEventListener("DOMContentLoaded", function() {
+            const header = document.querySelector("#page-header");
+            const authorInner = document.querySelector(".author-info__inner");
+            const author = document.querySelector(".author-info");
+            
+            if (header) {
+              header.style.backgroundImage = `url(${bgUrl})`;
+              header.style.backgroundSize = "cover";
+              header.style.backgroundPosition = "center";
+              header.style.backgroundRepeat = "no-repeat";
+              console.log("✅ page-header 背景已设置");
+            } else {
+              console.log("❌ 未找到 #page-header");
             }
-          `;
-          document.head.appendChild(style);
-          
-          console.log(`背景已切换：${month >= 5 && month <= 7 ? "夏" : "冬"}`);
+            
+            if (authorInner) {
+              authorInner.style.backgroundImage = `url(${bgUrl})`;
+              authorInner.style.backgroundSize = "cover";
+              authorInner.style.backgroundPosition = "center";
+            }
+            
+            if (author) {
+              author.style.backgroundImage = `url(${bgUrl})`;
+              author.style.backgroundSize = "cover";
+              author.style.backgroundPosition = "center";
+            }
+          });
         })();
       </script>'
   bottom:
