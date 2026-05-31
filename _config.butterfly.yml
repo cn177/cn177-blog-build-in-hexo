@@ -169,9 +169,9 @@ inject:
           var bgUrl = "";
           
           if (month >= 5 && month <= 7) {
-            bgUrl = "/img/bg2.png";
-          } else {
             bgUrl = "/img/bg1.png";
+          } else {
+            bgUrl = "/img/bg2.png";
           }
           
           function setBackground() {
