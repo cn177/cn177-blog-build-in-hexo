@@ -162,68 +162,104 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 四季背景切换 JS (修复版)
+inject:
+  head:
+    # 加载英文字体 Rajdhani
+    - '<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">'
+    # 加载开源文艺字体“霞鹜文楷”作为正文默认字体
+    - '<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.6.0/style.css" rel="stylesheet">'
+    # 加载得意黑字体（副标题专用）
+    - '<link href="https://fonts.googleapis.com/css2?family=Smiley+Sans&display=swap" rel="stylesheet">'
+    # 注入全局样式
+    - '<style>
+        /* 全局基础字体：加粗版本 */
+        body {
+          font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
+          font-weight: 500 !important;
+        }
+        p, .post-content, .article-content {
+          font-weight: 450 !important;
+        }
+        #site-title,
+        .post-title,
+        .page-title,
+        .archive-title,
+        .category-title,
+        .tag-title,
+        h1, h2, h3, h4, h5, h6 {
+          font-family: "SimSun", "Times New Roman", serif !important;
+          font-weight: 700 !important;
+        }
+        #site-subtitle {
+          font-family: "Smiley Sans", "LXGW WenKai Screen", sans-serif !important;
+          font-weight: 600 !important;
+          letter-spacing: 1px;
+          font-size: 1.2rem;
+        }
+        code, pre, .code-content {
+          font-family: "JetBrains Mono", "Fira Code", monospace !important;
+          font-weight: 400;
+        }
+        .menus_item a, .menu-item a {
+          font-weight: 500 !important;
+        }
+        .aside-content .card-announcement,
+        .aside-content .card_author .description {
+          font-weight: 450 !important;
+        }
+        .post-content::after {
+          content: "---------- 本文结束 ❤️ 感谢阅读 ----------";
+          display: block;
+          text-align: center;
+          margin: 40px 0 20px;
+          font-size: 14px;
+          color: #999;
+          font-weight: 400;
+        }
+        body {
+          padding-bottom: 60px !important;
+        }
+      </style>'
+    # 四季背景切换 JS（最简版）
     - '<script>
-        (function() {
-          // 获取当前月份 (0 = 1月, 11 = 12月)
-          var month = new Date().getMonth();
-          var bgUrl = "";
-          var season = "";
-          
-          // 打印当前月份，方便调试 (0-11)
-          console.log("当前月份(数字):", month, "对应", month+1, "月");
-          
-          // 根据月份判断季节
-          if (month === 2 || month === 3 || month === 4) {      // 3月, 4月, 5月
-            season = "春";
-            bgUrl = "/img/bg1.png";
-          } else if (month === 5 || month === 6 || month === 7) { // 6月, 7月, 8月
-            season = "夏";
-            bgUrl = "/img/bg2.png";
-          } else if (month === 8 || month === 9 || month === 10) { // 9月, 10月, 11月
-            season = "秋";
-            bgUrl = "/img/bg3.png";
-          } else {                                               // 12月, 1月, 2月
-            season = "冬";
-            bgUrl = "/img/bg4.png";
-          }
-          
-          console.log("计算出的季节:", season, "使用的图片:", bgUrl);
-          
-          function setBackground() {
-            var header = document.querySelector("#page-header");
-            var authorInner = document.querySelector(".author-info__inner");
-            var author = document.querySelector(".author-info");
-            
-            if (header) {
-              header.style.backgroundImage = "url(" + bgUrl + ")";
-              header.style.backgroundSize = "cover";
-              header.style.backgroundPosition = "center";
-              header.style.backgroundRepeat = "no-repeat";
-            } else {
-              console.log("提示: 未找到 #page-header 元素");
-            }
-            
-            if (authorInner) {
-              authorInner.style.backgroundImage = "url(" + bgUrl + ")";
-              authorInner.style.backgroundSize = "cover";
-              authorInner.style.backgroundPosition = "center";
-            }
-            
-            if (author) {
-              author.style.backgroundImage = "url(" + bgUrl + ")";
-              author.style.backgroundSize = "cover";
-              author.style.backgroundPosition = "center";
-            }
-            console.log("✅ 背景已设置完成, 季节: " + season);
-          }
-          
-          if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", setBackground);
+        var month = new Date().getMonth();
+        var bgUrl = "";
+        var season = "";
+        
+        if (month === 2 || month === 3 || month === 4) {
+          season = "春";
+          bgUrl = "/img/bg1.png";
+        } else if (month === 5 || month === 6 || month === 7) {
+          season = "夏";
+          bgUrl = "/img/bg2.png";
+        } else if (month === 8 || month === 9 || month === 10) {
+          season = "秋";
+          bgUrl = "/img/bg3.png";
+        } else {
+          season = "冬";
+          bgUrl = "/img/bg4.png";
+        }
+        
+        console.log("季节:", season, "图片:", bgUrl);
+        
+        function setBg() {
+          var el = document.querySelector("#page-header");
+          if (el) {
+            el.style.backgroundImage = "url(" + bgUrl + ")";
+            el.style.backgroundSize = "cover";
+            el.style.backgroundPosition = "center";
+            console.log("背景已设置");
           } else {
-            setBackground();
+            console.log("未找到元素，1秒后重试");
+            setTimeout(setBg, 1000);
           }
-        })();
+        }
+        
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", setBg);
+        } else {
+          setBg();
+        }
       </script>'
   bottom:
     # 运行时间 JS
@@ -261,7 +297,7 @@ inject:
            volume="0.7"
            list-folded="true">
        </meting-js>'
-    # 四个漂亮的圆角按钮（加一个上边距，防止和播放器重叠）
+    # 四个漂亮的圆角按钮
     - '<div style="text-align: center; margin: 0;">
          <style>
            .blog-buttons {
