@@ -162,16 +162,30 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 季节背景切换 JS（修复版）
+    # 四季背景切换 JS
     - '<script>
         (function() {
           var month = new Date().getMonth();
           var bgUrl = "";
+          var season = "";
           
-          if (month >= 5 && month <= 7) {
+          // 根据月份判断季节
+          // 春：3月-5月 (month: 2,3,4)
+          // 夏：6月-8月 (month: 5,6,7)
+          // 秋：9月-11月 (month: 8,9,10)
+          // 冬：12月-2月 (month: 11,0,1)
+          if (month >= 2 && month <= 4) {
+            season = "春";
             bgUrl = "/img/bg1.png";
-          } else {
+          } else if (month >= 5 && month <= 7) {
+            season = "夏";
             bgUrl = "/img/bg2.png";
+          } else if (month >= 8 && month <= 10) {
+            season = "秋";
+            bgUrl = "/img/bg3.png";
+          } else {
+            season = "冬";
+            bgUrl = "/img/bg4.png";
           }
           
           function setBackground() {
@@ -184,20 +198,18 @@ inject:
               header.style.backgroundSize = "cover";
               header.style.backgroundPosition = "center";
               header.style.backgroundRepeat = "no-repeat";
-              console.log("背景已设置: " + bgUrl);
             }
-            
             if (authorInner) {
               authorInner.style.backgroundImage = "url(" + bgUrl + ")";
               authorInner.style.backgroundSize = "cover";
               authorInner.style.backgroundPosition = "center";
             }
-            
             if (author) {
               author.style.backgroundImage = "url(" + bgUrl + ")";
               author.style.backgroundSize = "cover";
               author.style.backgroundPosition = "center";
             }
+            console.log("🍂 当前季节：" + season + "，背景已切换");
           }
           
           if (document.readyState === "loading") {
