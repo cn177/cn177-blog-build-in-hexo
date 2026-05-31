@@ -154,11 +154,11 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 节气提示 + 季节背景切换 JS（本地计算版）
+    # 节气提示 + 季节背景切换 JS（简化版）
     - '<script>
         (function() {
           // 节气近似日期表（公历）
-          const solarTerms = [
+          const solarTermsList = [
             { name: "小寒", month: 1, day: 5 },
             { name: "大寒", month: 1, day: 20 },
             { name: "立春", month: 2, day: 3 },
@@ -185,37 +185,33 @@ inject:
             { name: "冬至", month: 12, day: 21 }
           ];
           
-          function getNextSolarTerm() {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth() + 1;
-            const day = today.getDate();
-            
-            let nextTerm = null;
-            let minDays = Infinity;
-            
-            for (const term of solarTerms) {
-              let termDate = new Date(year, term.month - 1, term.day);
-              if (termDate < today) {
-                termDate = new Date(year + 1, term.month - 1, term.day);
-              }
-              const daysDiff = Math.ceil((termDate - today) / (1000 * 60 * 60 * 24));
-              if (daysDiff < minDays) {
-                minDays = daysDiff;
-                nextTerm = term;
-              }
+          const today = new Date();
+          const year = today.getFullYear();
+          const monthNum = today.getMonth() + 1;
+          const dayNum = today.getDate();
+          const month = monthNum.toString().padStart(2, "0");
+          const day = dayNum.toString().padStart(2, "0");
+          
+          // 计算下一个节气
+          let nextTerm = null;
+          let minDays = Infinity;
+          
+          for (let i = 0; i < solarTermsList.length; i++) {
+            const term = solarTermsList[i];
+            let termDate = new Date(year, term.month - 1, term.day);
+            if (termDate < today) {
+              termDate = new Date(year + 1, term.month - 1, term.day);
             }
-            return { term: nextTerm, days: minDays };
+            const daysDiff = Math.ceil((termDate - today) / (1000 * 60 * 60 * 24));
+            if (daysDiff < minDays) {
+              minDays = daysDiff;
+              nextTerm = term;
+            }
           }
           
-          const today = new Date();
-          const month = (today.getMonth() + 1).toString().padStart(2, "0");
-          const day = today.getDate().toString().padStart(2, "0");
-          
-          const { term: nextTerm, days: daysUntil } = getNextSolarTerm();
-          const termMessage = daysUntil === 0 
+          const termMessage = minDays === 0 
             ? `🎉 今日是「${nextTerm.name}」！🎉` 
-            : `离「${nextTerm.name}」还有 ${daysUntil} 天 ✨`;
+            : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
           const dateMessage = `📅 ${month}月${day}日 · ${termMessage}`;
           
           // 季节背景切换
@@ -240,9 +236,12 @@ inject:
           // 应用背景图
           const header = document.querySelector("#page-header");
           if (header) {
-            header.style.backgroundImage = `url(${bgUrl})`;
+            header.style.setProperty("background-image", `url(${bgUrl})`, "important");
             header.style.backgroundSize = "cover";
             header.style.backgroundPosition = "center";
+            console.log("背景已设置:", bgUrl);
+          } else {
+            console.log("未找到 #page-header 元素");
           }
           
           // 创建通知气泡
