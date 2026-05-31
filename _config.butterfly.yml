@@ -109,7 +109,7 @@ inject:
         /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
-          font-weight: 500 !important;  /* 全局加粗，500 = 中等粗细 */
+          font-weight: 500 !important;
         }
         /* 段落文字稍微轻一点，保持可读性 */
         p, .post-content, .article-content {
@@ -124,7 +124,7 @@ inject:
         .tag-title,
         h1, h2, h3, h4, h5, h6 {
           font-family: "SimSun", "Times New Roman", serif !important;
-          font-weight: 700 !important;  /* 标题更粗 */
+          font-weight: 700 !important;
         }
         /* 副标题：使用得意黑 + 加粗 */
         #site-subtitle {
@@ -147,15 +147,6 @@ inject:
         .aside-content .card_author .description {
           font-weight: 450 !important;
         }
-        /* 你的原有背景样式 */
-        #page-header,
-        .author-info__inner,
-        .author-info {
-          background-image: url(/img/bg.png) !important;
-          background-size: cover !important;
-          background-position: center !important;
-          background-repeat: no-repeat !important;
-        }
         /* 文章结束标记样式 */
         .post-content::after {
           content: "---------- 本文结束 ❤️ 感谢阅读 ----------";
@@ -166,12 +157,41 @@ inject:
           color: #999;
           font-weight: 400;
         }
-
-                /* 为吸底播放器预留空间，防止按钮被歌词遮挡 */
+        /* 为吸底播放器预留空间 */
         body {
           padding-bottom: 60px !important;
         }
       </style>'
+    # 季节背景切换 JS（简化版）
+    - '<script>
+        (function() {
+          const month = new Date().getMonth();
+          let bgUrl = "";
+          
+          // 根据月份设置背景图
+          if (month >= 5 && month <= 7) {
+            bgUrl = "/img/bg2.jpg";   // 夏日背景
+          } else {
+            bgUrl = "/img/bg1.jpg";   // 冬日背景
+          }
+          
+          // 覆盖顶部区域的背景
+          const style = document.createElement("style");
+          style.textContent = `
+            #page-header,
+            .author-info__inner,
+            .author-info {
+              background-image: url(${bgUrl}) !important;
+              background-size: cover !important;
+              background-position: center !important;
+              background-repeat: no-repeat !important;
+            }
+          `;
+          document.head.appendChild(style);
+          
+          console.log(`背景已切换：${month >= 5 && month <= 7 ? "夏" : "冬"}`);
+        })();
+      </script>'
   bottom:
     # 运行时间 JS
     - '<script>
