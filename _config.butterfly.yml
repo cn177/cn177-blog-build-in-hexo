@@ -154,10 +154,10 @@ inject:
           padding-bottom: 60px !important;
         }
       </style>'
-    # 节气提示 + 季节背景切换 JS（备用版）
+    # 节气提示 + 季节背景切换 JS（最终修复版）
     - '<script>
         (function() {
-          let termMessage = "🌱 正在感知节气...";
+          let termMessage = "🍂 节气数据加载中...";
           let season = "冬";
           let bgUrl = "/img/bg4.png";
           
@@ -260,9 +260,9 @@ inject:
           const dateMessage = `📅 ${monthStr}月${dayStr}日 · ${termMessage}`;
           
           // 创建通知气泡
-          const toast = document.createElement("div");
-          toast.innerHTML = `<div style="font-weight: 600; margin-bottom: 4px;">🌿 节气物语</div><div>${dateMessage}<br>🍂 背景已切换为「${season}季」</div>`;
-          toast.style.cssText = `
+          var toastDiv = document.createElement("div");
+          toastDiv.innerHTML = `<div style="font-weight: 600; margin-bottom: 4px;">🌿 节气物语</div><div>${dateMessage}<br>🍂 背景已切换为「${season}季」</div>`;
+          toastDiv.style.cssText = `
             position: fixed;
             bottom: 100px;
             left: 20px;
@@ -282,11 +282,17 @@ inject:
             line-height: 1.5;
             max-width: 260px;
           `;
-          document.body.appendChild(toast);
+          document.body.appendChild(toastDiv);
           
-          setTimeout(() => { toast.style.opacity = "1"; }, 200);
-          setTimeout(() => { toast.style.opacity = "0"; }, 5000);
-          setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5500);
+          setTimeout(function() { 
+            if (toastDiv) toastDiv.style.opacity = "1"; 
+          }, 200);
+          setTimeout(function() { 
+            if (toastDiv) toastDiv.style.opacity = "0"; 
+          }, 5000);
+          setTimeout(function() { 
+            if (toastDiv && toastDiv.remove) toastDiv.remove(); 
+          }, 5500);
           
           console.log(`✅ ${dateMessage}, 背景已切换至${season}季`);
         })();
