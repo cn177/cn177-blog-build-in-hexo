@@ -240,15 +240,34 @@ inject:
           initSolarTerm();
         }
         
-        // PJAX 后退/前进时重新执行 initSolarTerm
+        // 带重试的背景设置函数
+        function retryInitSolarTerm(retries = 5) {
+          const header = document.querySelector("#page-header");
+          if (header) {
+            initSolarTerm();
+            console.log("PJAX后退/前进：背景已重新设置");
+          } else if (retries > 0) {
+            console.log(`等待 #page-header 出现，剩余重试次数: ${retries}`);
+            setTimeout(function() {
+              retryInitSolarTerm(retries - 1);
+            }, 100);
+          } else {
+            console.log("PJAX后退/前进：#page-header 未找到，放弃重试");
+          }
+        }
+        
+        // PJAX 后退/前进时执行带重试的背景设置
         document.addEventListener("pjax:complete", function() {
-          setTimeout(initSolarTerm, 50);
+          setTimeout(function() {
+            retryInitSolarTerm(5);
+          }, 50);
         });
         
         window.addEventListener("popstate", function() {
-          setTimeout(initSolarTerm, 50);
+          setTimeout(function() {
+            retryInitSolarTerm(5);
+          }, 50);
         });
-      </script>'
   bottom:
     # 运行时间 JS
     - '<script>
