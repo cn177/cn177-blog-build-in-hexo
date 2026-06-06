@@ -231,7 +231,7 @@ inject:
           setTimeout(() => { if(toast) toast.style.opacity = "0"; }, 4500);
           setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5000);
           
-          console.log(`✅ ${dateMsg}, 背景:${season}季`);
+        console.log(`✅ ${dateMsg}, 背景:${season}季`);
         }
         
         if (document.readyState === "loading") {
@@ -239,6 +239,15 @@ inject:
         } else {
           initSolarTerm();
         }
+        
+        // PJAX 后退/前进时重新执行 initSolarTerm
+        document.addEventListener("pjax:complete", function() {
+          setTimeout(initSolarTerm, 50);
+        });
+        
+        window.addEventListener("popstate", function() {
+          setTimeout(initSolarTerm, 50);
+        });
       </script>'
   bottom:
     # 运行时间 JS
