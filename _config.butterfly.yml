@@ -278,7 +278,6 @@ inject:
           setTimeout(setBackgroundOnly, 50);
         });
       </script>'
-      </script>'
   bottom:
     # 运行时间 JS
     - '<script>
