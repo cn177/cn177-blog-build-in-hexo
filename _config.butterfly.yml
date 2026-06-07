@@ -234,13 +234,7 @@ inject:
           console.log(`✅ ${dateMsg}, 背景:${season}季`);
         }
         
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initSolarTerm);
-        } else {
-          initSolarTerm();
-        }
-                // ... 前面是你的 initSolarTerm 函数和执行代码 ...
-        
+        // 启动首次加载
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", initSolarTerm);
         } else {
