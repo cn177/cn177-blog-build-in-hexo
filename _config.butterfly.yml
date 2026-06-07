@@ -153,6 +153,12 @@ inject:
         body {
           padding-bottom: 60px !important;
         }
+        /* 运行时间文字样式 */
+        .run-time-text {
+          margin-top: 8px !important;
+          font-size: 90%;
+          opacity: 0.8;
+        }
       </style>
     # 节气提示 + 季节背景切换 JS
     - |
@@ -276,27 +282,24 @@ inject:
       </script>
 
   bottom:
-# 运行时间 JS
-- |
-  <script>
-  (function() {
-    const startDate = new Date("2026/04/01");
-    const now = new Date();
-    const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-    window.addEventListener("DOMContentLoaded", function() {
-      const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
-      if (footerInner) {
-        const runtimeDiv = document.createElement("div");
-        // 增加 !important 强制生效
-        runtimeDiv.style.marginTop = "8px !important";
-        runtimeDiv.style.fontSize = "90%";
-        runtimeDiv.style.opacity = "0.8";
-        runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
-        footerInner.appendChild(runtimeDiv);
-      }
-    });
-  })();
-  </script>
+    # 运行时间 JS
+    - |
+      <script>
+      (function() {
+        const startDate = new Date("2026/04/01");
+        const now = new Date();
+        const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        window.addEventListener("DOMContentLoaded", function() {
+          const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
+          if (footerInner) {
+            const runtimeDiv = document.createElement("div");
+            runtimeDiv.className = "run-time-text";
+            runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+            footerInner.appendChild(runtimeDiv);
+          }
+        });
+      })();
+      </script>
     # 网易云音乐播放器
     - '<link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.css">'
     - '<script src="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.js"></script>'
@@ -345,7 +348,7 @@ inject:
             <i class="fab fa-github"></i> GitHub
           </a>
           <a href="https://space.bilibili.com/515843270" target="_blank" class="blog-btn btn-bilibili">
-            <i class="fab fa-bilibili"></i> 哔哩哔哩
+            <i class="fab fa-github"></i> 哔哩哔哩
           </a>
           <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
             <i class="fab fa-github"></i> Hexo
