@@ -265,16 +265,17 @@ inject:
           border-radius: 4px;
         `;
         for(let i = 0; i < 4; i++) {
-          const item = document.createElement("span");
-          item.innerText = `图${i+1}`;
-          item.style.cssText = `
-            margin: 0 8px;
-            cursor: pointer;
-            user-select: none;
-          `;
-          item.onclick = () => changeBg(i);
-          menu.appendChild(item);
-        }
+        const item = document.createElement("span");
+        const nameArr = ["春", "夏", "秋", "冬"];
+       item.innerText = nameArr[i];
+       item.style.cssText = `
+       margin: 0 8px;
+       cursor: pointer;
+       user-select: none;
+       `;
+      item.onclick = () => changeBg(i);
+      menu.appendChild(item);
+      }
         const header = document.querySelector("#page-header");
         if(header) header.appendChild(menu);
       }
