@@ -103,8 +103,9 @@ inject:
     - '<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.6.0/style.css" rel="stylesheet">'
     # 加载得意黑字体（副标题专用）
     - '<link href="https://fonts.googleapis.com/css2?family=Smiley+Sans&display=swap" rel="stylesheet">'
-    # 注入全局样式（已删除背景样式）
-    - '<style>
+    # 全局样式
+    - |
+      <style>
         /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
@@ -152,211 +153,204 @@ inject:
         body {
           padding-bottom: 60px !important;
         }
-      </style>'
-    # 节气提示 + 季节背景切换 JS（稳定版）
-    - '<script>
-        function initSolarTerm() {
-          let termMessage = "🍂 节气数据加载中...";
-          let season = "冬";
-          let bgUrl = "/img/bg4.png";
+      </style>
+    # 节气提示 + 季节背景切换 JS
+    - |
+      <script>
+      function initSolarTerm() {
+        let termMessage = "🍂 节气数据加载中...";
+        let season = "冬";
+        let bgUrl = "/img/bg4.png";
+        
+        try {
+          const solarTermsList = [
+            { name: "小寒", month: 1, day: 5 }, { name: "大寒", month: 1, day: 20 },
+            { name: "立春", month: 2, day: 3 }, { name: "雨水", month: 2, day: 18 },
+            { name: "惊蛰", month: 3, day: 5 }, { name: "春分", month: 3, day: 20 },
+            { name: "清明", month: 4, day: 4 }, { name: "谷雨", month: 4, day: 19 },
+            { name: "立夏", month: 5, day: 5 }, { name: "小满", month: 5, day: 20 },
+            { name: "芒种", month: 6, day: 5 }, { name: "夏至", month: 6, day: 21 },
+            { name: "小暑", month: 7, day: 7 }, { name: "大暑", month: 7, day: 22 },
+            { name: "立秋", month: 8, day: 7 }, { name: "处暑", month: 8, day: 22 },
+            { name: "白露", month: 9, day: 7 }, { name: "秋分", month: 9, day: 22 },
+            { name: "寒露", month: 10, day: 8 }, { name: "霜降", month: 10, day: 23 },
+            { name: "立冬", month: 11, day: 7 }, { name: "小雪", month: 11, day: 22 },
+            { name: "大雪", month: 12, day: 6 }, { name: "冬至", month: 12, day: 21 }
+          ];
           
-          try {
-            const solarTermsList = [
-              { name: "小寒", month: 1, day: 5 }, { name: "大寒", month: 1, day: 20 },
-              { name: "立春", month: 2, day: 3 }, { name: "雨水", month: 2, day: 18 },
-              { name: "惊蛰", month: 3, day: 5 }, { name: "春分", month: 3, day: 20 },
-              { name: "清明", month: 4, day: 4 }, { name: "谷雨", month: 4, day: 19 },
-              { name: "立夏", month: 5, day: 5 }, { name: "小满", month: 5, day: 20 },
-              { name: "芒种", month: 6, day: 5 }, { name: "夏至", month: 6, day: 21 },
-              { name: "小暑", month: 7, day: 7 }, { name: "大暑", month: 7, day: 22 },
-              { name: "立秋", month: 8, day: 7 }, { name: "处暑", month: 8, day: 22 },
-              { name: "白露", month: 9, day: 7 }, { name: "秋分", month: 9, day: 22 },
-              { name: "寒露", month: 10, day: 8 }, { name: "霜降", month: 10, day: 23 },
-              { name: "立冬", month: 11, day: 7 }, { name: "小雪", month: 11, day: 22 },
-              { name: "大雪", month: 12, day: 6 }, { name: "冬至", month: 12, day: 21 }
-            ];
-            
-            const today = new Date();
-            const year = today.getFullYear();
-            let nextTerm = null;
-            let minDays = Infinity;
-            
-            for (let i = 0; i < solarTermsList.length; i++) {
-              const term = solarTermsList[i];
-              let termDate = new Date(year, term.month - 1, term.day);
-              if (termDate < today) termDate = new Date(year + 1, term.month - 1, term.day);
-              const daysDiff = Math.ceil((termDate - today) / (1000 * 60 * 60 * 24));
-              if (daysDiff < minDays) {
-                minDays = daysDiff;
-                nextTerm = term;
-              }
+          const today = new Date();
+          const year = today.getFullYear();
+          let nextTerm = null;
+          let minDays = Infinity;
+          
+          for (let i = 0; i < solarTermsList.length; i++) {
+            const term = solarTermsList[i];
+            let termDate = new Date(year, term.month - 1, term.day);
+            if (termDate < today) termDate = new Date(year + 1, term.month - 1, term.day);
+            const daysDiff = Math.ceil((termDate - today) / (1000 * 60 * 60 * 24));
+            if (daysDiff < minDays) {
+              minDays = daysDiff;
+              nextTerm = term;
             }
-            
-            termMessage = minDays === 0 ? `🎉 今日是「${nextTerm.name}」！🎉` : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
-            
-            const currentMonth = today.getMonth();
-            if (currentMonth >= 2 && currentMonth <= 4) {
-              season = "春"; bgUrl = "/img/bg1.png";
-            } else if (currentMonth >= 5 && currentMonth <= 7) {
-              season = "夏"; bgUrl = "/img/bg2.png";
-            } else if (currentMonth >= 8 && currentMonth <= 10) {
-              season = "秋"; bgUrl = "/img/bg3.png";
-            } else {
-              season = "冬"; bgUrl = "/img/bg4.png";
-            }
-            console.log("节气成功:", termMessage);
-          } catch(e) {
-            console.log("节气失败，用bg4:", e);
-            termMessage = "🍂 节气数据加载中...";
-            season = "冬";
-            bgUrl = "/img/bg4.png";
           }
           
-          const header = document.querySelector("#page-header");
-          if (header) {
-            header.style.setProperty("background-image", `url(${bgUrl})`, "important");
-            header.style.backgroundSize = "cover";
-            header.style.backgroundPosition = "center";
+          termMessage = minDays === 0 ? `🎉 今日是「${nextTerm.name}」！🎉` : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
+          
+          const currentMonth = today.getMonth();
+          if (currentMonth >= 2 && currentMonth <= 4) {
+            season = "春"; bgUrl = "/img/bg1.png";
+          } else if (currentMonth >= 5 && currentMonth <= 7) {
+            season = "夏"; bgUrl = "/img/bg2.png";
+          } else if (currentMonth >= 8 && currentMonth <= 10) {
+            season = "秋"; bgUrl = "/img/bg3.png";
+          } else {
+            season = "冬"; bgUrl = "/img/bg4.png";
           }
-          
-          const now = new Date();
-          const dateMsg = `📅 ${(now.getMonth()+1).toString().padStart(2,"0")}月${now.getDate().toString().padStart(2,"0")}日 · ${termMessage}`;
-          
-          const toast = document.createElement("div");
-          toast.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">🌿 节气物语</div><div>${dateMsg}<br>🍂 背景已切换为「${season}季」</div>`;
-          toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;z-index:99999;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
-          document.body.appendChild(toast);
-          
-          setTimeout(() => { if(toast) toast.style.opacity = "1"; }, 100);
-          setTimeout(() => { if(toast) toast.style.opacity = "0"; }, 4500);
-          setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5000);
-          
-          console.log(`✅ ${dateMsg}, 背景:${season}季`);
+          console.log("节气成功:", termMessage);
+        } catch(e) {
+          console.log("节气失败，用bg4:", e);
+          termMessage = "🍂 节气数据加载中...";
+          season = "冬";
+          bgUrl = "/img/bg4.png";
         }
         
-        // 启动首次加载
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initSolarTerm);
-        } else {
-          initSolarTerm();
-        }
-        
-        // PJAX 后退/前进时只重新设置背景（不重新创建气泡）
-        function setBackgroundOnly() {
-          const header = document.querySelector("#page-header");
-          if (!header) {
-            console.log("setBackgroundOnly: #page-header 未找到");
-            return;
-          }
-          
-          const month = new Date().getMonth();
-          let bgUrl = "/img/bg4.png";
-          if (month >= 2 && month <= 4) bgUrl = "/img/bg1.png";
-          else if (month >= 5 && month <= 7) bgUrl = "/img/bg2.png";
-          else if (month >= 8 && month <= 10) bgUrl = "/img/bg3.png";
-          else bgUrl = "/img/bg4.png";
-          
+        const header = document.querySelector("#page-header");
+        if (header) {
           header.style.setProperty("background-image", `url(${bgUrl})`, "important");
           header.style.backgroundSize = "cover";
           header.style.backgroundPosition = "center";
-          console.log("PJAX后退/前进：背景已重新设置");
         }
         
-        document.addEventListener("pjax:complete", function() {
-          console.log("🎉 PJAX 事件触发");
-          setTimeout(setBackgroundOnly, 50);
-        });
+        const now = new Date();
+        const dateMsg = `📅 ${(now.getMonth()+1).toString().padStart(2,"0")}月${now.getDate().toString().padStart(2,"0")}日 · ${termMessage}`;
         
-        window.addEventListener("popstate", function() {
-          console.log("popstate 事件触发");
-          setTimeout(setBackgroundOnly, 50);
-        });
-      </script>'
+        const toast = document.createElement("div");
+        toast.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">🌿 节气物语</div><div>${dateMsg}<br>🍂 背景已切换为「${season}季」</div>`;
+        toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;z-index:99999;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
+        document.body.appendChild(toast);
+        
+        setTimeout(() => { if(toast) toast.style.opacity = "1"; }, 100);
+        setTimeout(() => { if(toast) toast.style.opacity = "0"; }, 4500);
+        setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5000);
+        
+        console.log(`✅ ${dateMsg}, 背景:${season}季`);
+      }
+      
+      // 启动首次加载
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initSolarTerm);
+      } else {
+        initSolarTerm();
+      }
+      
+      // PJAX 后退/前进时只重新设置背景
+      function setBackgroundOnly() {
+        const header = document.querySelector("#page-header");
+        if (!header) {
+          console.log("setBackgroundOnly: #page-header 未找到");
+          return;
+        }
+        
+        const month = new Date().getMonth();
+        let bgUrl = "/img/bg4.png";
+        if (month >= 2 && month <= 4) bgUrl = "/img/bg1.png";
+        else if (month >= 5 && month <= 7) bgUrl = "/img/bg2.png";
+        else if (month >= 8 && month <= 10) bgUrl = "/img/bg3.png";
+        else bgUrl = "/img/bg4.png";
+        
+        header.style.setProperty("background-image", `url(${bgUrl})`, "important");
+        header.style.backgroundSize = "cover";
+        header.style.backgroundPosition = "center";
+        console.log("PJAX后退/前进：背景已重新设置");
+      }
+      
+      document.addEventListener("pjax:complete", function() {
+        console.log("🎉 PJAX 事件触发");
+        setTimeout(setBackgroundOnly, 50);
+      });
+      
+      window.addEventListener("popstate", function() {
+        console.log("popstate 事件触发");
+        setTimeout(setBackgroundOnly, 50);
+      });
+      </script>
+
   bottom:
     # 运行时间 JS
-    - '<script>
-        (function() {
-          const startDate = new Date("2026/04/01");
-          const now = new Date();
-          const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-          window.addEventListener("DOMContentLoaded", function() {
-            const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
-            if (footerInner) {
-              const runtimeDiv = document.createElement("div");
-              runtimeDiv.style.marginTop = "8px";
-              runtimeDiv.style.fontSize = "90%";
-              runtimeDiv.style.opacity = "0.8";
-              runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
-              footerInner.appendChild(runtimeDiv);
-            }
-          });
-        })();
-      </script>'
-    # 网易云音乐播放器 (unpkg 老版本)
-    - '<link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.css">
-       <script src="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.js"></script>
-       <script src="https://unpkg.com/meting@2.0.0/dist/Meting.min.js"></script>
-       <meting-js
-           server="netease"
-           type="playlist"
-           id="17882448056"
-           fixed="true"
-           autoplay="false"
-           loop="all"
-           order="random"
-           preload="auto"
-           volume="0.7"
-           list-folded="true">
-       </meting-js>'
-    # 四个漂亮的圆角按钮
-    - '<div style="text-align: center; margin: 0;">
-         <style>
-           .blog-buttons {
-             display: flex;
-             flex-wrap: wrap;
-             justify-content: center;
-             gap: 12px;
-             margin-top: 15px;
-           }
-           .blog-btn {
-             display: inline-flex;
-             align-items: center;
-             gap: 8px;
-             padding: 8px 18px;
-             border-radius: 40px;
-             font-size: 13px;
-             font-weight: 500;
-             text-decoration: none;
-             transition: all 0.3s ease;
-             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-             font-family: "Rajdhani", sans-serif;
-           }
-           .blog-btn:hover {
-             transform: translateY(-3px);
-             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-           }
-           .btn-github { background: #24292e; color: white; }
-           .btn-github:hover { background: #2f363d; }
-           .btn-bilibili { background: #fb7299; color: white; }
-           .btn-bilibili:hover { background: #fc8dae; }
-           .btn-hexo { background: #0e83cd; color: white; }
-           .btn-hexo:hover { background: #1a9cf0; }
-           .btn-butterfly { background: #ff7c7c; color: white; }
-           .btn-butterfly:hover { background: #ff9696; }
-           .blog-btn i { font-size: 16px; }
-         </style>
-         <div class="blog-buttons">
-           <a href="https://github.com/cn177" target="_blank" class="blog-btn btn-github">
-             <i class="fab fa-github"></i> GitHub
-           </a>
-           <a href="https://space.bilibili.com/515843270" target="_blank" class="blog-btn btn-bilibili">
-             <i class="fab fa-bilibili"></i> 哔哩哔哩
-           </a>
-           <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
-             <i class="fab fa-github"></i> Hexo
-           </a>
-           <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" class="blog-btn btn-butterfly">
-             <i class="fab fa-github"></i> Butterfly
-           </a>
-         </div>
-       </div>'
+    - |
+      <script>
+      (function() {
+        const startDate = new Date("2026/04/01");
+        const now = new Date();
+        const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        window.addEventListener("DOMContentLoaded", function() {
+          const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
+          if (footerInner) {
+            const runtimeDiv = document.createElement("div");
+            runtimeDiv.style.marginTop = "8px";
+            runtimeDiv.style.fontSize = "90%";
+            runtimeDiv.style.opacity = "0.8";
+            runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+            footerInner.appendChild(runtimeDiv);
+          }
+        });
+      })();
+      </script>
+    # 网易云音乐播放器
+    - '<link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.css">'
+    - '<script src="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.js"></script>'
+    - '<script src="https://unpkg.com/meting@2.0.0/dist/Meting.min.js"></script>'
+    - '<meting-js server="netease" type="playlist" id="17882448056" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.7" list-folded="true"></meting-js>'
+    # 底部圆角按钮
+    - |
+      <div style="text-align: center; margin: 0;">
+        <style>
+          .blog-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+          }
+          .blog-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-family: "Rajdhani", sans-serif;
+          }
+          .blog-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          }
+          .btn-github { background: #24292e; color: white; }
+          .btn-github:hover { background: #2f363d; }
+          .btn-bilibili { background: #fb7299; color: white; }
+          .btn-bilibili:hover { background: #fc8dae; }
+          .btn-hexo { background: #0e83cd; color: white; }
+          .btn-hexo:hover { background: #1a9cf0; }
+          .btn-butterfly { background: #ff7c7c; color: white; }
+          .btn-butterfly:hover { background: #ff9696; }
+          .blog-btn i { font-size: 16px; }
+        </style>
+        <div class="blog-buttons">
+          <a href="https://github.com/cn177" target="_blank" class="blog-btn btn-github">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a href="https://space.bilibili.com/515843270" target="_blank" class="blog-btn btn-bilibili">
+            <i class="fab fa-bilibili"></i> 哔哩哔哩
+          </a>
+          <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
+            <i class="fab fa-github"></i> Hexo
+          </a>
+          <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" class="blog-btn btn-butterfly">
+            <i class="fab fa-github"></i> Butterfly
+          </a>
+        </div>
+      </div>
