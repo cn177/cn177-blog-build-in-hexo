@@ -181,9 +181,105 @@ inject:
       })();
       </script>
 
-    # 节气气泡（移到 bottom，确保 DOM 已就绪）
+    # 节气+背景切换 + 24小时记忆 脚本
     - |
       <script>
+      // 四张背景图地址
+      const bgList = [
+        "/img/bg1.png",
+        "/img/bg2.png",
+        "/img/bg3.png",
+        "/img/bg4.png"
+      ];
+      const STORAGE_KEY = "blog_bg_setting";
+      const EXPIRE_HOUR = 24;
+
+      // 按日期获取季节默认背景
+      function getAutoBgUrl() {
+        const m = new Date().getMonth();
+        if(m >= 2 && m <= 4) return "/img/bg1.png";
+        if(m >= 5 && m <= 7) return "/img/bg2.png";
+        if(m >= 8 && m <= 10) return "/img/bg3.png";
+        return "/img/bg4.png";
+      }
+
+      // 读取本地存储，判断是否在有效期内
+      function getSavedBg() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if(!data) return null;
+        try {
+          const obj = JSON.parse(data);
+          const now = Date.now();
+          // 超过24小时则失效
+          if(now - obj.time > EXPIRE_HOUR * 60 * 60 * 1000) {
+            localStorage.removeItem(STORAGE_KEY);
+            return null;
+          }
+          return obj.url;
+        } catch(e) {
+          localStorage.removeItem(STORAGE_KEY);
+          return null;
+        }
+      }
+
+      // 设置背景
+      function setBg(url) {
+        const header = document.querySelector("#page-header");
+        if(header) {
+          header.style.setProperty("background-image", `url(${url})`, "important");
+          header.style.backgroundSize = "cover";
+          header.style.backgroundPosition = "center";
+        }
+      }
+
+      // 点击切换背景 + 存入本地记录
+      function changeBg(idx) {
+        const url = bgList[idx];
+        setBg(url);
+        // 记录当前时间+地址
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          url: url,
+          time: Date.now()
+        }));
+      }
+
+      // 初始化背景：有有效记录用记录，否则用季节默认
+      function initBg() {
+        const saved = getSavedBg();
+        const targetUrl = saved || getAutoBgUrl();
+        setBg(targetUrl);
+      }
+
+      // 生成极简切换列表（头部右下）
+      function createBgMenu() {
+        if(document.getElementById("bg-switch-menu")) return;
+        const menu = document.createElement("div");
+        menu.id = "bg-switch-menu";
+        menu.style.cssText = `
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+          z-index: 999;
+          background: rgba(255,255,255,0.7);
+          padding: 6px 10px;
+          border-radius: 4px;
+        `;
+        for(let i = 0; i < 4; i++) {
+          const item = document.createElement("span");
+          item.innerText = `图${i+1}`;
+          item.style.cssText = `
+            margin: 0 8px;
+            cursor: pointer;
+            user-select: none;
+          `;
+          item.onclick = () => changeBg(i);
+          menu.appendChild(item);
+        }
+        const header = document.querySelector("#page-header");
+        if(header) header.appendChild(menu);
+      }
+
+      // 节气弹窗逻辑
       function initSolarTerm() {
         let termMessage = "🍂 节气数据加载中...";
         let season = "冬";
@@ -222,13 +318,12 @@ inject:
           }
 
           termMessage = minDays === 0 ? `🎉 今日是「${nextTerm.name}」！🎉` : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
-
-          const currentMonth = today.getMonth();
-          if (currentMonth >= 2 && currentMonth <= 4) {
+          const m = today.getMonth();
+          if (m >= 2 && m <= 4) {
             season = "春"; bgUrl = "/img/bg1.png";
-          } else if (currentMonth >= 5 && currentMonth <= 7) {
+          } else if (m >= 5 && m <= 7) {
             season = "夏"; bgUrl = "/img/bg2.png";
-          } else if (currentMonth >= 8 && currentMonth <= 10) {
+          } else if (m >= 8 && m <= 10) {
             season = "秋"; bgUrl = "/img/bg3.png";
           } else {
             season = "冬"; bgUrl = "/img/bg4.png";
@@ -239,24 +334,15 @@ inject:
           bgUrl = "/img/bg4.png";
         }
 
-        const header = document.querySelector("#page-header");
-        if (header) {
-          header.style.setProperty("background-image", `url(${bgUrl})`, "important");
-          header.style.backgroundSize = "cover";
-          header.style.backgroundPosition = "center";
-        }
-
-        const now = new Date();
-        const dateMsg = `📅 ${(now.getMonth()+1).toString().padStart(2,"0")}月${now.getDate().toString().padStart(2,"0")}日 · ${termMessage}`;
-
-        // 先清掉旧气泡，防止重复
         const oldToast = document.querySelector(".solar-toast");
         if (oldToast) oldToast.remove();
 
+        const now = new Date();
+        const dateMsg = `📅 ${(now.getMonth()+1).toString().padStart(2,"0")}月${now.getDate().toString().padStart(2,"0")}日 · ${termMessage}`;
         const toast = document.createElement("div");
         toast.className = "solar-toast";
         toast.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">🌿 节气物语</div><div>${dateMsg}<br>🍂 背景已切换为「${season}季」</div>`;
-        toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
+        toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px;z-index:99999 !important";
         document.body.appendChild(toast);
 
         setTimeout(() => toast.style.opacity = "1", 100);
@@ -264,32 +350,22 @@ inject:
         setTimeout(() => toast.remove(), 5000);
       }
 
-      function setBackgroundOnly() {
-        const header = document.querySelector("#page-header");
-        if (!header) return;
-        const month = new Date().getMonth();
-        let bgUrl = "/img/bg4.png";
-        if (month >= 2 && month <= 4) bgUrl = "/img/bg1.png";
-        else if (month >= 5 && month <= 7) bgUrl = "/img/bg2.png";
-        else if (month >= 8 && month <= 10) bgUrl = "/img/bg3.png";
-        header.style.setProperty("background-image", `url(${bgUrl})`, "important");
-        header.style.backgroundSize = "cover";
-        header.style.backgroundPosition = "center";
-      }
-
-      // 首次加载
+      // 页面加载
       document.addEventListener("DOMContentLoaded", function() {
+        initBg();
+        createBgMenu();
         initSolarTerm();
       });
 
-      // PJAX 切换后重新显示气泡 + 重设背景
+      // PJAX 跳转
       document.addEventListener("pjax:complete", function() {
+        initBg();
+        createBgMenu();
         initSolarTerm();
-        setTimeout(setBackgroundOnly, 50);
       });
 
       window.addEventListener("popstate", function() {
-        setTimeout(setBackgroundOnly, 50);
+        initBg();
       });
       </script>
 
