@@ -234,14 +234,9 @@ inject:
           console.log(`✅ ${dateMsg}, 背景:${season}季`);
         }
         
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initSolarTerm);
-        } else {
-          initSolarTerm();
-        }
-        
-        // 带重试的背景设置函数
-        function retryInitSolarTerm(retries = 5) {
+        // 先定义重试函数
+        function retryInitSolarTerm(retries) {
+          if (retries === undefined) retries = 5;
           const header = document.querySelector("#page-header");
           if (header) {
             initSolarTerm();
@@ -256,7 +251,14 @@ inject:
           }
         }
         
-        // PJAX 后退/前进时执行带重试的背景设置
+        // 启动首次加载
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSolarTerm);
+        } else {
+          initSolarTerm();
+        }
+        
+        // 再绑定事件监听
         document.addEventListener("pjax:complete", function() {
           console.log("🎉 PJAX 事件触发了，准备重设背景");
           setTimeout(function() {
