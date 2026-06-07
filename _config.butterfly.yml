@@ -266,7 +266,7 @@ inject:
         `;
         for(let i = 0; i < 4; i++) {
         const item = document.createElement("span");
-        const nameArr = ["春", "夏", "秋", "冬"];
+        const nameArr = ["春  你的名字。", "夏 秒速五厘米", "秋 败犬女主太多了！", "冬 我的青春恋爱物语果然有问题。"];
        item.innerText = nameArr[i];
        item.style.cssText = `
        margin: 0 8px;
