@@ -97,16 +97,11 @@ pjax:
 
 inject:
   head:
-    # 加载英文字体 Rajdhani
     - '<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">'
-    # 加载开源文艺字体“霞鹜文楷”作为正文默认字体
     - '<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.6.0/style.css" rel="stylesheet">'
-    # 加载得意黑字体（副标题专用）
     - '<link href="https://fonts.googleapis.com/css2?family=Smiley+Sans&display=swap" rel="stylesheet">'
-    # 全局样式
     - |
       <style>
-        /* 全局基础字体：加粗版本 */
         body {
           font-family: "Rajdhani", "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
           font-weight: 500 !important;
@@ -153,21 +148,47 @@ inject:
         body {
           padding-bottom: 60px !important;
         }
-        /* 运行时间文字样式 */
         .run-time-text {
           margin-top: 8px !important;
           font-size: 90%;
           opacity: 0.8;
         }
+        /* 强制气泡最高层级 */
+        .solar-toast {
+          z-index: 99999 !important;
+        }
       </style>
-    # 节气提示 + 季节背景切换 JS
+
+  bottom:
+    # 运行时间
+    - |
+      <script>
+      (function() {
+        const startDate = new Date("2026/04/01");
+        const now = new Date();
+        const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        function insertRuntime() {
+          const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
+          if (footerInner && !footerInner.querySelector(".run-time-text")) {
+            const runtimeDiv = document.createElement("div");
+            runtimeDiv.className = "run-time-text";
+            runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+            footerInner.appendChild(runtimeDiv);
+          }
+        }
+        document.addEventListener("DOMContentLoaded", insertRuntime);
+        document.addEventListener("pjax:complete", insertRuntime);
+      })();
+      </script>
+
+    # 节气气泡（移到 bottom，确保 DOM 已就绪）
     - |
       <script>
       function initSolarTerm() {
         let termMessage = "🍂 节气数据加载中...";
         let season = "冬";
         let bgUrl = "/img/bg4.png";
-        
+
         try {
           const solarTermsList = [
             { name: "小寒", month: 1, day: 5 }, { name: "大寒", month: 1, day: 20 },
@@ -183,12 +204,12 @@ inject:
             { name: "立冬", month: 11, day: 7 }, { name: "小雪", month: 11, day: 22 },
             { name: "大雪", month: 12, day: 6 }, { name: "冬至", month: 12, day: 21 }
           ];
-          
+
           const today = new Date();
           const year = today.getFullYear();
           let nextTerm = null;
           let minDays = Infinity;
-          
+
           for (let i = 0; i < solarTermsList.length; i++) {
             const term = solarTermsList[i];
             let termDate = new Date(year, term.month - 1, term.day);
@@ -199,9 +220,9 @@ inject:
               nextTerm = term;
             }
           }
-          
+
           termMessage = minDays === 0 ? `🎉 今日是「${nextTerm.name}」！🎉` : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
-          
+
           const currentMonth = today.getMonth();
           if (currentMonth >= 2 && currentMonth <= 4) {
             season = "春"; bgUrl = "/img/bg1.png";
@@ -212,100 +233,73 @@ inject:
           } else {
             season = "冬"; bgUrl = "/img/bg4.png";
           }
-          console.log("节气成功:", termMessage);
-        } catch(e) {
-          console.log("节气失败，用bg4:", e);
+        } catch (e) {
           termMessage = "🍂 节气数据加载中...";
           season = "冬";
           bgUrl = "/img/bg4.png";
         }
-        
+
         const header = document.querySelector("#page-header");
         if (header) {
           header.style.setProperty("background-image", `url(${bgUrl})`, "important");
           header.style.backgroundSize = "cover";
           header.style.backgroundPosition = "center";
         }
-        
+
         const now = new Date();
         const dateMsg = `📅 ${(now.getMonth()+1).toString().padStart(2,"0")}月${now.getDate().toString().padStart(2,"0")}日 · ${termMessage}`;
-        
+
+        // 先清掉旧气泡，防止重复
+        const oldToast = document.querySelector(".solar-toast");
+        if (oldToast) oldToast.remove();
+
         const toast = document.createElement("div");
+        toast.className = "solar-toast";
         toast.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">🌿 节气物语</div><div>${dateMsg}<br>🍂 背景已切换为「${season}季」</div>`;
-        toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;z-index:99999;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
+        toast.style.cssText = "position:fixed;bottom:100px;left:20px;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);color:white;padding:12px 20px;border-radius:24px;font-size:14px;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);line-height:1.5;max-width:260px";
         document.body.appendChild(toast);
-        
-        setTimeout(() => { if(toast) toast.style.opacity = "1"; }, 100);
-        setTimeout(() => { if(toast) toast.style.opacity = "0"; }, 4500);
-        setTimeout(() => { if(toast && toast.remove) toast.remove(); }, 5000);
-        
-        console.log(`✅ ${dateMsg}, 背景:${season}季`);
+
+        setTimeout(() => toast.style.opacity = "1", 100);
+        setTimeout(() => toast.style.opacity = "0", 4500);
+        setTimeout(() => toast.remove(), 5000);
       }
-      
-      // 启动首次加载
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initSolarTerm);
-      } else {
-        initSolarTerm();
-      }
-      
-      // PJAX 后退/前进时只重新设置背景
+
       function setBackgroundOnly() {
         const header = document.querySelector("#page-header");
-        if (!header) {
-          console.log("setBackgroundOnly: #page-header 未找到");
-          return;
-        }
-        
+        if (!header) return;
         const month = new Date().getMonth();
         let bgUrl = "/img/bg4.png";
         if (month >= 2 && month <= 4) bgUrl = "/img/bg1.png";
         else if (month >= 5 && month <= 7) bgUrl = "/img/bg2.png";
         else if (month >= 8 && month <= 10) bgUrl = "/img/bg3.png";
-        else bgUrl = "/img/bg4.png";
-        
         header.style.setProperty("background-image", `url(${bgUrl})`, "important");
         header.style.backgroundSize = "cover";
         header.style.backgroundPosition = "center";
-        console.log("PJAX后退/前进：背景已重新设置");
       }
-      
+
+      // 首次加载
+      document.addEventListener("DOMContentLoaded", function() {
+        initSolarTerm();
+      });
+
+      // PJAX 切换后重新显示气泡 + 重设背景
       document.addEventListener("pjax:complete", function() {
-        console.log("🎉 PJAX 事件触发");
+        initSolarTerm();
         setTimeout(setBackgroundOnly, 50);
       });
-      
+
       window.addEventListener("popstate", function() {
-        console.log("popstate 事件触发");
         setTimeout(setBackgroundOnly, 50);
       });
       </script>
 
-  bottom:
-    # 运行时间 JS
-    - |
-      <script>
-      (function() {
-        const startDate = new Date("2026/04/01");
-        const now = new Date();
-        const days = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-        window.addEventListener("DOMContentLoaded", function() {
-          const footerInner = document.querySelector(".footer__inner, .footer-inner, footer .copyright");
-          if (footerInner) {
-            const runtimeDiv = document.createElement("div");
-            runtimeDiv.className = "run-time-text";
-            runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
-            footerInner.appendChild(runtimeDiv);
-          }
-        });
-      })();
-      </script>
-    # 网易云音乐播放器
+    # 网易云播放器
     - '<link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.css">'
     - '<script src="https://unpkg.com/aplayer@1.10.0/dist/APlayer.min.js"></script>'
     - '<script src="https://unpkg.com/meting@2.0.0/dist/Meting.min.js"></script>'
     - '<meting-js server="netease" type="playlist" id="17882448056" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.7" list-folded="true"></meting-js>'
-    # 底部圆角按钮
+
+    # 底部按钮
     - |
       <div style="text-align: center; margin: 0;">
         <style>
@@ -348,7 +342,7 @@ inject:
             <i class="fab fa-github"></i> GitHub
           </a>
           <a href="https://space.bilibili.com/515843270" target="_blank" class="blog-btn btn-bilibili">
-            <i class="fab fa-github"></i> 哔哩哔哩
+            <i class="fab fa-bilibili"></i> 哔哩哔哩
           </a>
           <a href="https://github.com/hexojs/hexo" target="_blank" class="blog-btn btn-hexo">
             <i class="fab fa-github"></i> Hexo
