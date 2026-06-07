@@ -239,6 +239,45 @@ inject:
         } else {
           initSolarTerm();
         }
+                // ... 前面是你的 initSolarTerm 函数和执行代码 ...
+        
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSolarTerm);
+        } else {
+          initSolarTerm();
+        }
+        
+        // PJAX 后退/前进时只重新设置背景（不重新创建气泡）
+        function setBackgroundOnly() {
+          const header = document.querySelector("#page-header");
+          if (!header) {
+            console.log("setBackgroundOnly: #page-header 未找到");
+            return;
+          }
+          
+          const month = new Date().getMonth();
+          let bgUrl = "/img/bg4.png";
+          if (month >= 2 && month <= 4) bgUrl = "/img/bg1.png";
+          else if (month >= 5 && month <= 7) bgUrl = "/img/bg2.png";
+          else if (month >= 8 && month <= 10) bgUrl = "/img/bg3.png";
+          else bgUrl = "/img/bg4.png";
+          
+          header.style.setProperty("background-image", `url(${bgUrl})`, "important");
+          header.style.backgroundSize = "cover";
+          header.style.backgroundPosition = "center";
+          console.log("PJAX后退/前进：背景已重新设置");
+        }
+        
+        document.addEventListener("pjax:complete", function() {
+          console.log("🎉 PJAX 事件触发");
+          setTimeout(setBackgroundOnly, 50);
+        });
+        
+        window.addEventListener("popstate", function() {
+          console.log("popstate 事件触发");
+          setTimeout(setBackgroundOnly, 50);
+        });
+      </script>'
       </script>'
   bottom:
     # 运行时间 JS
