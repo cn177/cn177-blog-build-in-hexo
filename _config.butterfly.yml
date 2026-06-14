@@ -489,3 +489,10 @@ inject:
             typing();
           }
         }
+
+        // 初始化
+        clearTimeout(timer);
+        el.innerText = "";
+        typing();
+      }
+      </script>
