@@ -489,103 +489,98 @@ inject:
             typing();
           }
         }
-        # 2025 高颜值续费弹窗 | 同一天只弹出1次
-- |
-  <script>
-  function createRenewModal() {
-    const now = new Date();
-    const nowYear = now.getFullYear();
-    const todayKey = now.toDateString();
-    const storageKey = "renew_tip_2025";
+    # 2025 高颜值续费弹窗 | 每次访问都弹出
+    - |
+      <script>
+      function createRenewModal() {
+        const now = new Date();
+        const nowYear = now.getFullYear();
 
-    // 2025及以后才触发
-    if (nowYear < 2026) return;
-    // 当天已弹出则不再重复
-    if (localStorage.getItem(storageKey) === todayKey) return;
-    localStorage.setItem(storageKey, todayKey);
+        // 2025及以后才触发
+        if (nowYear < 2025) return;
 
-    // 遮罩层
-    const mask = document.createElement('div');
-    mask.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    `;
+        // 遮罩层
+        const mask = document.createElement('div');
+        mask.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999999;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        `;
 
-    // 弹窗主体
-    const modalBox = document.createElement('div');
-    modalBox.style.cssText = `
-      background: #ffffff;
-      width: 90%;
-      max-width: 360px;
-      padding: 36px 28px;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      transform: scale(0.9);
-      transition: transform 0.3s ease;
-      box-sizing: border-box;
-    `;
+        // 弹窗主体
+        const modalBox = document.createElement('div');
+        modalBox.style.cssText = `
+          background: #ffffff;
+          width: 90%;
+          max-width: 360px;
+          padding: 36px 28px;
+          border-radius: 18px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+          text-align: center;
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+          box-sizing: border-box;
+        `;
 
-    // 弹窗内容
-    modalBox.innerHTML = `
-      <div style="font-size: 20px; font-weight: 600; color: #222; margin-bottom: 16px;">🔔 网站续费提醒</div>
-      <p style="font-size: 15px; color: #666; line-height: 1.7; margin: 0 0 28px 0;">
-        站点服务即将到期<br>
-        请联系 QQ：<span style="color: #e53e3e; font-weight: 600; font-size: 17px;">743899771</span><br>
-        及时完成续费哦
-      </p>
-      <button id="closeModal" style="
-        background: #4a90e2;
-        color: #fff;
-        border: none;
-        border-radius: 30px;
-        padding: 10px 32px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background 0.2s;
-      " onmouseover="this.style.background='#357abd'" onmouseout="this.style.background='#4a90e2'">
-        我已知晓
-      </button>
-    `;
+        // 弹窗内容
+        modalBox.innerHTML = `
+          <div style="font-size: 20px; font-weight: 600; color: #222; margin-bottom: 16px;">🔔 网站续费提醒</div>
+          <p style="font-size: 15px; color: #666; line-height: 1.7; margin: 0 0 28px 0;">
+            站点服务即将到期<br>
+            请联系 QQ：<span style="color: #e53e3e; font-weight: 600; font-size: 17px;">743899771</span><br>
+            及时完成续费哦
+          </p>
+          <button id="closeModal" style="
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 32px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+          " onmouseover="this.style.background='#357abd'" onmouseout="this.style.background='#4a90e2'">
+            我已知晓
+          </button>
+        `;
 
-    mask.appendChild(modalBox);
-    document.body.appendChild(mask);
+        mask.appendChild(modalBox);
+        document.body.appendChild(mask);
 
-    // 入场动画
-    setTimeout(() => {
-      mask.style.opacity = '1';
-      modalBox.style.transform = 'scale(1)';
-    }, 10);
+        // 入场动画
+        setTimeout(() => {
+          mask.style.opacity = '1';
+          modalBox.style.transform = 'scale(1)';
+        }, 10);
 
-    // 关闭按钮
-    document.getElementById('closeModal').addEventListener('click', () => {
-      mask.style.opacity = '0';
-      modalBox.style.transform = 'scale(0.9)';
-      setTimeout(() => mask.remove(), 300);
-    });
+        // 关闭按钮
+        document.getElementById('closeModal').addEventListener('click', () => {
+          mask.style.opacity = '0';
+          modalBox.style.transform = 'scale(0.9)';
+          setTimeout(() => mask.remove(), 300);
+        });
 
-    // 点击空白遮罩关闭
-    mask.addEventListener('click', (e) => {
-      if (e.target === mask) {
-        mask.style.opacity = '0';
-        modalBox.style.transform = 'scale(0.9)';
-        setTimeout(() => mask.remove(), 300);
+        // 点击空白遮罩关闭
+        mask.addEventListener('click', (e) => {
+          if (e.target === mask) {
+            mask.style.opacity = '0';
+            modalBox.style.transform = 'scale(0.9)';
+            setTimeout(() => mask.remove(), 300);
+          }
+        });
       }
-    });
-  }
 
-  // 兼容页面加载 & PJAX 切换
-  document.addEventListener('DOMContentLoaded', createRenewModal);
-  document.addEventListener('pjax:complete', createRenewModal);
-  </script>
+      // 兼容页面加载 & PJAX 切换
+      document.addEventListener('DOMContentLoaded', createRenewModal);
+      document.addEventListener('pjax:complete', createRenewModal);
+      </script>
