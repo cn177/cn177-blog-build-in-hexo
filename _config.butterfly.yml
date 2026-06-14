@@ -435,7 +435,7 @@ inject:
       </div>
 
     - |
-      <!-- 打字机 + 正常轮换，文字不中途删除，整条打完再切下一条 -->
+      <!-- 打字 + 逐字删除 + 自动轮换 完整动画 -->
       <script>
       document.addEventListener('DOMContentLoaded', runSubtitle);
       document.addEventListener('pjax:complete', runSubtitle);
@@ -444,7 +444,7 @@ inject:
         const el = document.getElementById('site-subtitle');
         if(!el) return;
 
-        // 你的全部轮换文案，和 yaml 里保持一致
+        // 轮换文案列表（和你配置里保持一致）
         const texts = [
           "汗は君のために流れる.————POCARI SWEAT",
           "决不跪在地上 以显出刽子手们的高大 好阻挡自由的风————北岛",
@@ -455,25 +455,36 @@ inject:
         let nowIndex = 0;
         let charIndex = 0;
         let timer = null;
+        const typeSpeed = 80;    // 打字速度
+        const delSpeed = 60;     // 删除速度
+        const stayTime = 2500;   // 文字停留时长(毫秒)
 
         // 逐字打字
         function typing() {
-          const currentText = texts[nowIndex];
-          if (charIndex <= currentText.length) {
-            el.innerText = currentText.slice(0, charIndex);
+          const curr = texts[nowIndex];
+          if (charIndex <= curr.length) {
+            el.innerText = curr.slice(0, charIndex);
             charIndex++;
-            timer = setTimeout(typing, 80); // 打字速度
+            timer = setTimeout(typing, typeSpeed);
           } else {
-            // 整条打完，停留 3 秒后切下一条
-            timer = setTimeout(switchText, 3000);
+            // 打完停留，再开始删除
+            timer = setTimeout(deleting, stayTime);
           }
         }
 
-        // 切换下一条
-        function switchText() {
-          nowIndex = (nowIndex + 1) % texts.length;
-          charIndex = 0;
-          typing();
+        // 逐字删除
+        function deleting() {
+          const curr = texts[nowIndex];
+          if (charIndex > 0) {
+            charIndex--;
+            el.innerText = curr.slice(0, charIndex);
+            timer = setTimeout(deleting, delSpeed);
+          } else {
+            // 删除完毕，切下一条
+            nowIndex = (nowIndex + 1) % texts.length;
+            charIndex = 0;
+            typing();
+          }
         }
 
         // 初始化
