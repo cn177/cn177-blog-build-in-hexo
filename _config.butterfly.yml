@@ -455,9 +455,9 @@ inject:
         let nowIndex = 0;
         let charIndex = 0;
         let timer = null;
-        const typeSpeed = 80;    // 打字速度
-        const delSpeed = 60;     // 删除速度
-        const stayTime = 2500;   // 文字停留时长(毫秒)
+        const typeSpeed = 100;    // 打字速度
+        const delSpeed = 80;     // 删除速度
+        const stayTime = 3000;   // 文字停留时长(毫秒)
 
         // 逐字打字
         function typing() {
