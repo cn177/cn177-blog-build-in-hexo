@@ -435,7 +435,7 @@ inject:
       </div>
 
     - |
-      <!-- 副标题 打字机 + 多条自动轮换 -->
+      <!-- 打字机 + 正常轮换，文字不中途删除，整条打完再切下一条 -->
       <script>
       document.addEventListener('DOMContentLoaded', runSubtitle);
       document.addEventListener('pjax:complete', runSubtitle);
@@ -443,32 +443,42 @@ inject:
       function runSubtitle(){
         const el = document.getElementById('site-subtitle');
         if(!el) return;
+
+        // 你的全部轮换文案，和 yaml 里保持一致
         const texts = [
           "汗は君のために流れる.————POCARI SWEAT",
           "决不跪在地上 以显出刽子手们的高大 好阻挡自由的风————北岛",
           "长风长风飘在山海间 白鸟白鸟展翅入苍天 一去入苍天 苍天远在海背面————ilem「白鸟过河滩」",
           "桜の花の落ちるスピード。秒速5センチメートル。————秒速五厘米 Pt1 「樱花抄」"
         ];
-        let idx = 0;
-        let charIdx = 0;
-        let typeTimer, waitTimer;
 
-        function type(){
-          const currText = texts[idx];
-          if(charIdx <= currText.length){
-            el.innerText = currText.slice(0, charIdx);
-            charIdx++;
-            typeTimer = setTimeout(type, 80);
-          }else{
-            waitTimer = setTimeout(()=>{
-              charIdx = 0;
-              idx = (idx + 1) % texts.length;
-            }, 3000);
+        let nowIndex = 0;
+        let charIndex = 0;
+        let timer = null;
+
+        // 逐字打字
+        function typing() {
+          const currentText = texts[nowIndex];
+          if (charIndex <= currentText.length) {
+            el.innerText = currentText.slice(0, charIndex);
+            charIndex++;
+            timer = setTimeout(typing, 80); // 打字速度
+          } else {
+            // 整条打完，停留 3 秒后切下一条
+            timer = setTimeout(switchText, 3000);
           }
         }
-        clearTimeout(typeTimer);
-        clearTimeout(waitTimer);
+
+        // 切换下一条
+        function switchText() {
+          nowIndex = (nowIndex + 1) % texts.length;
+          charIndex = 0;
+          typing();
+        }
+
+        // 初始化
+        clearTimeout(timer);
         el.innerText = "";
-        type();
+        typing();
       }
       </script>
