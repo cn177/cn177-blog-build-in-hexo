@@ -7,7 +7,7 @@ avatar:
 
 subtitle:
   enable: true
-  effect: true
+  effect: false
   loop: true
   source: false
   sub:
@@ -16,7 +16,7 @@ subtitle:
     - 长风长风飘在山海间 白鸟白鸟展翅入苍天 一去入苍天 苍天远在海背面————ilem「白鸟过河滩」
     - 桜の花の落ちるスピード。秒速5センチメートル。————秒速五厘米 Pt1 「樱花抄」
     
-    favicon: /img/favicon-32x32.png
+favicon: /img/favicon-32x32.png
 
 # =====================================
 # 导航菜单
@@ -432,3 +432,43 @@ inject:
           </a>
         </div>
       </div>
+      </div>
+
+    - |
+      <!-- 副标题 打字机 + 多条自动轮换 -->
+      <script>
+      document.addEventListener('DOMContentLoaded', runSubtitle);
+      document.addEventListener('pjax:complete', runSubtitle);
+
+      function runSubtitle(){
+        const el = document.getElementById('site-subtitle');
+        if(!el) return;
+        const texts = [
+          "汗は君のために流れる.————POCARI SWEAT",
+          "决不跪在地上 以显出刽子手们的高大 好阻挡自由的风————北岛",
+          "长风长风飘在山海间 白鸟白鸟展翅入苍天 一去入苍天 苍天远在海背面————ilem「白鸟过河滩」",
+          "桜の花の落ちるスピード。秒速5センチメートル。————秒速五厘米 Pt1 「樱花抄」"
+        ];
+        let idx = 0;
+        let charIdx = 0;
+        let typeTimer, waitTimer;
+
+        function type(){
+          const currText = texts[idx];
+          if(charIdx <= currText.length){
+            el.innerText = currText.slice(0, charIdx);
+            charIdx++;
+            typeTimer = setTimeout(type, 80);
+          }else{
+            waitTimer = setTimeout(()=>{
+              charIdx = 0;
+              idx = (idx + 1) % texts.length;
+            }, 3000);
+          }
+        }
+        clearTimeout(typeTimer);
+        clearTimeout(waitTimer);
+        el.innerText = "";
+        type();
+      }
+      </script>
