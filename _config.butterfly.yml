@@ -489,10 +489,69 @@ inject:
             typing();
           }
         }
+    # 2027年后 续费提醒弹窗
+    - |
+      <script>
+      function createRenewModal() {
+        const now = new Date();
+        const nowYear = now.getFullYear();
+        const todayStr = now.toDateString();
+        const storageKey = "renew_tip_show_date";
 
-        // 初始化
-        clearTimeout(timer);
-        el.innerText = "";
-        typing();
+        if (nowYear < 2027) return;
+        if (localStorage.getItem(storageKey) === todayStr) return;
+
+        localStorage.setItem(storageKey, todayStr);
+
+        const modal = document.createElement("div");
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999999;
+        `;
+
+        const box = document.createElement("div");
+        box.style.cssText = `
+          background: #fff;
+          padding: 30px 40px;
+          border-radius: 12px;
+          text-align: center;
+          max-width: 320px;
+        `;
+
+        box.innerHTML = `
+          <h3 style="margin:0 0 16px 0; color:#333;">网站续费提醒</h3>
+          <p style="margin:0 0 24px 0; font-size:15px; color:#666;">
+            网站服务即将到期<br>
+            请联系 QQ：<strong style="color:#f56c6c; font-size:18px;">743899771</strong><br>
+            及时提醒续费！
+          </p>
+          <button id="closeRenew" style="
+            padding: 8px 24px;
+            border: none;
+            background: #409eff;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size:14px;
+          ">我知道了</button>
+        `;
+
+        modal.appendChild(box);
+        document.body.appendChild(modal);
+
+        document.getElementById("closeRenew").addEventListener("click", () => {
+          modal.remove();
+        });
       }
+
+      document.addEventListener("DOMContentLoaded", createRenewModal);
+      document.addEventListener("pjax:complete", createRenewModal);
       </script>
