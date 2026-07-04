@@ -175,7 +175,7 @@ inject:
           if (footerInner && !footerInner.querySelector(".run-time-text")) {
             const runtimeDiv = document.createElement("div");
             runtimeDiv.className = "run-time-text";
-            runtimeDiv.innerText = `已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
+            runtimeDiv.innerText = `we use copyleft 丨 已艰难运行 ${days} 天 | 你怎么看到这里了Ovo`;
             footerInner.appendChild(runtimeDiv);
           }
         }
