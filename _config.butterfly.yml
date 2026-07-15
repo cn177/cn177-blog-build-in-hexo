@@ -26,7 +26,6 @@ menu:
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tag
-  RSS: /atom.xml || fas fa-rss
   关于: /about/ || fas fa-heart
   
 
