@@ -329,9 +329,9 @@ inject:
           const m = today.getMonth();
           if (m >= 2 && m <= 4) {
             season = "春"; bgUrl = "/img/bg1.png";
-          } else if (m >= 5 && m <= 7) {
+          } else if (m >= 5 && m <= 6) {
             season = "夏"; bgUrl = "/img/bg2.png";
-          } else if (m >= 8 && m <= 10) {
+          } else if (m >= 7 && m <= 10) {
             season = "秋"; bgUrl = "/img/bg3.png";
           } else {
             season = "冬"; bgUrl = "/img/bg4.png";
