@@ -327,9 +327,9 @@ inject:
 
           termMessage = minDays === 0 ? `🎉 今日是「${nextTerm.name}」！🎉` : `离「${nextTerm.name}」还有 ${minDays} 天 ✨`;
           const m = today.getMonth();
-          if (m >= 2 && m <= 4) {
+          if (m >= 1 && m <= 3) {
             season = "春"; bgUrl = "/img/bg1.png";
-          } else if (m >= 5 && m <= 6) {
+          } else if (m >= 4 && m <= 6) {
             season = "夏"; bgUrl = "/img/bg2.png";
           } else if (m >= 7 && m <= 10) {
             season = "秋"; bgUrl = "/img/bg3.png";
